@@ -1,0 +1,16 @@
+/* ARQUIVO: src/styles.scss */
+/* DESCRIÇÃO: Estilos globais da sua aplicação. */
+
+/* Você pode adicionar estilos globais aqui. Por exemplo, resetar margens e paddings, definir fontes padrão, etc. */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #f4f7f6; /* Um cinza bem claro para o fundo geral */
+    color: #333;
+  }
+  
+  /* Estilos para uma melhor aparência de caixas de seleção de texto, se desejar */
+  ::selection {
+    background-color: #3498db; /* Cor de fundo da seleção */
+    color: white; /* Cor do texto selecionado */
+  }
