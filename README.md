@@ -1,54 +1,52 @@
-# iagenda# Projeto
+iAgenda
+Este projeto é composto por um frontend Angular 20 e um backend em Node.js usando o NestJS.
 
-Este projeto é composto por um **frontend Angular 20** e um **backend em Node.js usando o NestJS**.
+📦 Estrutura do Projeto
+O projeto está organizado da seguinte forma:
 
----
+/
+├── frontend/   # Projeto Angular
+└── backend/    # Projeto NestJS
 
-## 📦 Estrutura do Projeto
+🧭 Requisitos
+Para executar este projeto, você precisará ter instalado:
 
-/frontend # Projeto Angular
-/backend # Projeto NestJS
+Node.js 18+
 
-yaml
-Copiar
-Editar
+npm 9+
 
----
+Angular CLI 20
 
-## 🧭 Requisitos
+Um banco de dados configurado (PostgreSQL, Oracle, etc., dependendo da configuração do backend)
 
-- Node.js 18+
-- npm 9+
-- Angular CLI 20
-- Banco de dados configurado (PostgreSQL, Oracle, etc.)
-- Docker (opcional)
+Docker (opcional, para facilitar a configuração do ambiente)
 
----
+🔧 Como Usar
+Siga os passos abaixo para configurar e executar o projeto localmente.
 
-## 🔧 Como usar
+1. Clonar o Repositório
+Primeiro, clone o repositório para sua máquina local:
 
-### 1. Clonar o repositório
-
-```bash
 git clone <url-do-repositorio>
 cd <nome-do-repositorio>
-2. Instalar dependências
-Frontend:
-bash
-Copiar
-Editar
+
+2. Instalar Dependências
+Navegue para cada pasta (frontend e backend) e instale as respectivas dependências.
+
+Frontend (Angular):
+
 cd frontend
 npm install
-Backend:
-bash
-Copiar
-Editar
+
+Backend (NestJS):
+
 cd backend
 npm install
-🌐 Frontend (Angular)
-Este projeto foi gerado usando Angular CLI versão 20.0.0.
 
-📦 Principais bibliotecas
+🌐 Frontend (Angular)
+Esta aplicação frontend foi gerada utilizando Angular CLI versão 20.0.0.
+
+📦 Principais Bibliotecas e Conceitos
 Angular Standalone Components
 
 Angular Forms / ReactiveForms
@@ -57,107 +55,94 @@ Angular Router
 
 RxJS
 
-HttpClient
+HttpClient para comunicação com a API
 
-🚀 Servidor de desenvolvimento
-bash
-Copiar
-Editar
+🚀 Servidor de Desenvolvimento
+Para iniciar o servidor de desenvolvimento do frontend:
+
 cd frontend
 ng serve
-Acesse no navegador: http://localhost:4200
 
-A aplicação será recarregada automaticamente ao salvar os arquivos.
+Após iniciar, acesse a aplicação no seu navegador em: http://localhost:4200.
+A aplicação será recarregada automaticamente sempre que você salvar alterações nos arquivos.
 
-🛠️ Gerar componentes e outros artefatos
-bash
-Copiar
-Editar
+🛠️ Gerar Componentes e Outros Artefatos
+Para gerar novos componentes ou outros artefatos Angular via CLI:
+
 ng generate component nome-do-componente
-Para mais opções:
 
-bash
-Copiar
-Editar
+Para visualizar todas as opções de geração:
+
 ng generate --help
-🏗️ Build
-bash
-Copiar
-Editar
+
+🏗️ Build para Produção
+Para compilar o projeto para produção:
+
 ng build
-Os arquivos compilados serão gerados em dist/.
+
+Os arquivos compilados serão gerados no diretório dist/.
 
 🧪 Testes
-Testes unitários:
+Testes Unitários:
 
-bash
-Copiar
-Editar
 ng test
-Testes e2e (caso configurado):
 
-bash
-Copiar
-Editar
+Testes End-to-End (E2E):
+
 ng e2e
-⚠️ O Angular CLI não inclui um framework e2e por padrão. Você pode usar Cypress ou Playwright.
 
-📚 Recursos úteis
-Documentação Angular
+⚠️ Nota: O Angular CLI não inclui um framework de E2E por padrão a partir de versões mais recentes. Você pode integrar ferramentas como Cypress ou Playwright para testes E2E.
 
-Angular CLI Reference
+📚 Recursos Úteis do Angular
+Documentação Oficial do Angular
+
+Referência da Angular CLI
 
 🖥️ Backend (NestJS)
-O backend é construído com NestJS, um framework modular, robusto e altamente escalável para Node.js com TypeScript.
+O backend é construído com NestJS, um framework modular, robusto e altamente escalável para Node.js, utilizando TypeScript.
 
-📦 Principais bibliotecas
-@nestjs/core
+📦 Principais Bibliotecas e Conceitos
+@nestjs/core e outros módulos fundamentais do NestJS
 
-TypeORM / Prisma / Sequelize (dependendo do ORM usado)
+ORM (Object-Relational Mapper) como TypeORM, Prisma, ou Sequelize (verifique a implementação específica do projeto)
 
-JWT (autenticação)
+Autenticação via JWT (JSON Web Tokens)
 
-Multer (upload de arquivos)
+Multer para upload de arquivos
 
-Class-validator (validação de dados)
+class-validator e class-transformer para validação e transformação de dados de entrada (DTOs)
 
-Swagger (documentação da API)
+Swagger (OpenAPI) para documentação interativa da API
 
-🚀 Servidor de desenvolvimento
-bash
-Copiar
-Editar
+🚀 Servidor de Desenvolvimento
+Para iniciar o servidor de desenvolvimento do backend:
+
 cd backend
 npm run start:dev
-Acesse: http://localhost:3000
+
+Por padrão, o servidor NestJS estará acessível em: http://localhost:3000.
 
 🔒 Autenticação
-A autenticação é feita via JWT. Após login, inclua o token nas requisições protegidas:
+A autenticação da API é realizada utilizando JWT. Após um login bem-sucedido, o cliente recebe um token de acesso. Este token deve ser incluído no cabeçalho Authorization de todas as requisições para endpoints protegidos:
 
-makefile
-Copiar
-Editar
-Authorization: Bearer <token>
-📁 Upload de arquivos
-O backend suporta upload de arquivos (PDFs, arquivos geoespaciais como KMZ/KML/SHP ZIP) usando Multer. Os arquivos são salvos localmente e relacionados a entidades no banco de dados.
+Authorization: Bearer <seu-token-jwt>
+
+📁 Upload de Arquivos
+O backend suporta o upload de diversos tipos de arquivos, incluindo PDFs e arquivos geoespaciais como KMZ, KML e arquivos SHP (geralmente enviados como um arquivo ZIP). A biblioteca Multer é utilizada para gerenciar o upload. Os arquivos são tipicamente salvos localmente no servidor e suas informações (como caminho e metadados) são relacionadas a entidades no banco de dados.
 
 🧪 Testes
-Testes unitários:
+Testes Unitários:
 
-bash
-Copiar
-Editar
 npm run test
-Testes end-to-end:
 
-bash
-Copiar
-Editar
+Testes End-to-End (E2E):
+
 npm run test:e2e
-📚 Documentação da API
-Se habilitado com Swagger:
 
-http://localhost:3000/api
+📚 Documentação da API (Swagger)
+Se a documentação da API via Swagger estiver habilitada e configurada no projeto, você geralmente pode acessá-la em:
+
+http://localhost:3000/api (ou o caminho configurado para o Swagger UI).
 
 📄 Licença
 Este projeto está licenciado sob os termos da MIT License.
