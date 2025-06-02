@@ -42,7 +42,7 @@ Angular Forms / ReactiveForms
 Angular Router
 RxJS
 HttpClient para comunicação com a API
-🚀 Servidor de Desenvolvimento
+## 🚀 Servidor de Desenvolvimento
 Para iniciar o servidor de desenvolvimento do frontend:
 cd frontend
 ng serve
@@ -50,7 +50,7 @@ ng serve
 
 Após iniciar, acesse a aplicação no seu navegador em: http://localhost:4200.
 A aplicação será recarregada automaticamente sempre que você salvar alterações nos arquivos.
-🛠️ Gerar Componentes e Outros Artefatos
+## 🛠️ Gerar Componentes e Outros Artefatos
 Para gerar novos componentes ou outros artefatos Angular via CLI:
 ng generate component nome-do-componente
 
