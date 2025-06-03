@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TestFacade } from '../facades/test-facade';
+import { TestFacade } from '../../facades/test-facade';
 
 interface Activity {
   id: number;
