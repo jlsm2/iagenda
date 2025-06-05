@@ -1,0 +1,53 @@
+<div class="login-container">
+  <div class="icon-panel">
+    <div class="main-icon-wrapper">
+      <i class="fa-regular fa-calendar-days"></i>
+    </div>
+  </div>
+  <div class="form-panel">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h2>Entrar</h2>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" required>
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="error-message">
+          <div *ngIf="email?.errors?.['required']">Email é obrigatório.</div>
+          <div *ngIf="email?.errors?.['email']">Formato de email inválido.</div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" formControlName="password" required>
+        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="error-message">
+          <div *ngIf="password?.errors?.['required']">Senha é obrigatória.</div>
+        </div>
+      </div>
+
+      <p class="sub-links">
+        <a href="#" class="forgot-password-link">Esqueceu a senha?</a>
+      </p>
+
+      <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">Entrar</button>
+
+      <p class="signup-link">
+        Não tem uma conta? <a href="#">Cadastre-se</a>
+      </p>
+
+      <p class="separator-text">Ou entre com</p>
+
+      <div class="social-login">
+        <button type="button" class="social-btn google">
+          <i class="fab fa-google"></i>
+        </button>
+        <button type="button" class="social-btn apple">
+          <i class="fab fa-apple"></i>
+        </button>
+        <button type="button" class="social-btn facebook">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
