@@ -1,0 +1,55 @@
+# docker-compose.yml
+version: '3.8' # Especifica a versão do formato do arquivo Docker Compose
+
+services:
+  # Serviço do Backend
+  backend:
+    build:
+      context: ./backend # Caminho para a pasta do backend (onde está o Dockerfile do backend)
+      dockerfile: Dockerfile # Nome do Dockerfile a ser usado
+    ports:
+      - "3000:3000" # Mapeia a porta 3000 do container para a porta 3000 da sua máquina host
+    volumes:
+      # Monta o código fonte do backend no container para live-reloading durante o desenvolvimento
+      # Qualquer alteração no seu código local será refletida dentro do container.
+      - ./backend:/usr/src/app
+      # Importante: Evita que a pasta node_modules local sobrescreva a que foi instalada DENTRO do container.
+      # Isso garante que os binários corretos para o ambiente do container sejam usados.
+      - /usr/src/app/node_modules
+    env_file:
+      - ./backend/.env # Carrega variáveis de ambiente do arquivo .env localizado na pasta backend/
+                      # Certifique-se de criar o arquivo backend/.env com sua GEMINI_API_KEY
+    environment:
+      - NODE_ENV=development
+      # A GEMINI_API_KEY será carregada pelo env_file.
+      # Você também pode definir a PORT aqui se ela não estiver no .env ou no código.
+      # - PORT=3000
+    # depends_on: # Pode ser útil se o frontend precisar que o backend esteja "pronto"
+    #   - frontend # Ou vice-versa, mas para a instalação de dependências não é crucial.
+
+  # Serviço do Frontend
+  frontend:
+    build:
+      context: ./frontend # Caminho para a pasta do frontend
+      dockerfile: Dockerfile # Nome do Dockerfile a ser usado
+    ports:
+      - "4200:4200" # Mapeia a porta 4200 do container para a porta 4200 da sua máquina host
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      # CHOKIDAR_USEPOLLING é útil para o live-reloading do Angular em alguns sistemas com Docker
+      - CHOKIDAR_USEPOLLING=true
+    # Se o frontend fizesse chamadas ao backend no momento do build (o que não é o caso para ng serve),
+    # você poderia adicionar um depends_on: - backend.
+    # Mas para desenvolvimento paralelo, eles podem iniciar independentemente.
+
+# (Opcional) Define redes se você precisar de configurações de rede mais complexas
+# networks:
+#   app-network:
+#     driver: bridge
+
+# (Opcional) Define volumes nomeados se você precisar persistir dados (ex: banco de dados)
+# volumes:
+#   db_data:
