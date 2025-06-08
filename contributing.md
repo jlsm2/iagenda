@@ -49,4 +49,12 @@ Exemplos:
 3. Na raiz do projeto, execute:
 
 ```bash
+
 docker-compose up --build
+
+```
+---
+
+## 🧐 Observações
+
+É de extrema importância que todos os membros da equipe sigam os passos descritos nesse documento, para que não haja obstáculos desnecessários no processo de desenvolvimento do software.
