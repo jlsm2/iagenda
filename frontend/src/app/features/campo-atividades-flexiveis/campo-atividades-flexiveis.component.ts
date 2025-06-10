@@ -9,22 +9,24 @@ interface Activity {
   name: string;
   startTime: string;
   endTime: string;
+  duration: number; // duração da atividade em minutos
 }
 
 interface ActivityPayload {
   name: string;
   startTime: string;
   endTime: string;
+  duration: number;
 }
 
 @Component({
-  selector: 'app-test-display',
+  selector: 'app-campo-atividades-flexiveis',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './test-display.component.html',
-  styleUrls: ['./test-display.component.scss']
+  templateUrl: './campo-atividades-flexiveis.component.html',
+  styleUrls: ['./campo-atividades-flexiveis.component.scss']
 })
-export class TestDisplayComponent {
+export class CampoAtividadesFlexiveisComponent {
   activities: Activity[] = [];
   private nextId = 0; // contador para IDs únicos
 
@@ -33,14 +35,20 @@ export class TestDisplayComponent {
   processingError$: Observable<string | null>;
 
   constructor(private testFacade: TestFacade) {
-    this.generatedRoutine$ = this.testFacade.apiResponseMessage$; // a resposta da API será a rotina
+    this.generatedRoutine$ = this.testFacade.apiResponseMessage$; // resposta da API
     this.isProcessing$ = this.testFacade.isProcessing$;
     this.processingError$ = this.testFacade.processingError$;
     this.addActivity();
   }
 
   addActivity(): void {
-    this.activities.push({ id: this.nextId++, name: '', startTime: '', endTime: '' });
+    this.activities.push({
+      id: this.nextId++,
+      name: '',
+      startTime: '',
+      endTime: '',
+      duration: 30 // duração padrão de 30 minutos
+    });
   }
 
   removeActivity(idToRemove: number): void {
@@ -51,15 +59,19 @@ export class TestDisplayComponent {
   }
 
   generateRoutine(): void {
-    // validação básica no frontend antes de enviar
+    // validação básica antes de enviar
     const validActivities = this.activities.filter(
-      act => act.name.trim() !== '' && act.startTime.trim() !== '' && act.endTime.trim() !== ''
+      act => act.name.trim() !== '' &&
+             act.startTime.trim() !== '' &&
+             act.endTime.trim() !== '' &&
+             act.duration > 0
     );
 
     const activityPayloads: ActivityPayload[] = validActivities.map(act => ({
-        name: act.name,
-        startTime: act.startTime,
-        endTime: act.endTime
+      name: act.name,
+      startTime: act.startTime,
+      endTime: act.endTime,
+      duration: act.duration
     }));
 
     this.testFacade.submitActivitiesForRoutine(activityPayloads);
@@ -69,4 +81,3 @@ export class TestDisplayComponent {
     return activity.id;
   }
 }
-

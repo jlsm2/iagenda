@@ -1,7 +1,7 @@
 <div class="container routine-builder">
     <h2>Monte sua Rotina Diária</h2>
     <p class="subtitle">Adicione suas atividades fixas e horários. A IA ajudará a organizar seu dia!</p>
-  
+
     <div class="activities-list">
       <div *ngFor="let activity of activities; let i = index; trackBy: trackActivityById" class="activity-item">
         <div class="form-group activity-name">
@@ -20,7 +20,7 @@
           &times; </button>
       </div>
     </div>
-  
+
     <div class="actions-toolbar">
       <button (click)="addActivity()" class="btn btn-secondary">Adicionar Atividade</button>
       <button (click)="generateRoutine()" class="btn btn-primary" [disabled]="(isProcessing$ | async) || activities.length === 0">
@@ -30,15 +30,16 @@
         </span>
       </button>
     </div>
-  
+
     <div *ngIf="(isProcessing$ | async) && !(generatedRoutine$ | async) && !(processingError$ | async)" class="status-message loading-message compact-status">
       <p>⏳ Processando sua rotina com a IA...</p>
     </div>
     <div *ngIf="(processingError$ | async) as errorMsg" class="status-message error-message compact-status">
       <p><strong>⚠️ Erro:</strong> {{ errorMsg }}</p>
     </div>
-  
+
     <div *ngIf="(generatedRoutine$ | async) as routine" class="generated-routine-display">
       <h3>Sugestão de Rotina:</h3>
       <pre class="routine-text">{{ routine }}</pre> </div>
   </div>
+
