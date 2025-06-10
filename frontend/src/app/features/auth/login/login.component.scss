@@ -1,16 +1,16 @@
-// Variáveis de Cor
-$primary-dark-blue: #0d2c5a;
-$primary-button-blue: #4a7dff;
-$secondary-button-blue-hover: #3a6add;
-$text-color-dark: #333;
-$text-color-light: #fff;
+// Variáveis de Cor (AJUSTADAS CONFORME A NOVA LOGO)
+$primary-dark-blue: #043791;       // NOVA COR DE FUNDO
+$primary-button-blue: #4a7dff;     // Um azul vibrante para botões e links
+$secondary-button-blue-hover: #3a6add; // Tom mais escuro para hover
+$text-color-dark: #333;               // Texto escuro para fundos claros
+$text-color-light: #ffffff;          // Branco da logo, para textos em fundos escuros
 $label-color: #555;
 $input-border-color: #ccc;
 $input-focus-border-color: $primary-button-blue;
 $separator-text-color: #777;
 $link-color: $primary-button-blue;
-$icon-color-light: #ffffff;
-$error-color: #e53935; // Cor para mensagens de erro
+$icon-color-light: #ffffff;          // Cor do ícone (branco)
+$error-color: #e53935;                // Cor para mensagens de erro
 
 // Variáveis de Fonte
 $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projeto
@@ -24,31 +24,26 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
 }
 
 // Estilos para o host do componente
-// :host é usado para aplicar estilos ao elemento <app-login> em si.
-// Se você precisar que o componente de login seja centralizado na página,
-// essa centralização deve ser feita pelo componente pai ou por estilos globais.
-// Por exemplo, o componente pai poderia usar flexbox para centralizar <app-login>.
 :host {
-  display: flex; // Permite que o :host seja um container flex se necessário
-  justify-content: center; // Centraliza o .login-container se :host for o container da página inteira
-  align-items: center; // Centraliza verticalmente
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  min-height: 100vh; // Opcional: para ocupar a altura total da viewport
-  padding: 20px; // Adiciona algum espaçamento ao redor
+  min-height: 100vh;
+  padding: 20px;
   box-sizing: border-box;
   font-family: $font-family-primary;
-  background-color: #f4f7fc; // Fundo para a área ao redor do card de login
+  background-color: #f4f7fc;
 }
 
 .login-container {
   display: flex;
   width: 900px;
-  max-width: 100%; // Ajustado para ser mais responsivo
+  max-width: 100%;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  // margin: 50px auto; // Removido, pois :host agora pode centralizar
 }
 
 .icon-panel {
@@ -59,23 +54,241 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
   position: relative;
 
   .main-icon-wrapper {
-    position: relative;
+    // APLICANDO A CORREÇÃO FINAL DE TAMANHO
+    min-width: 400px;  // <-- AUMENTADO PARA O DOBRO DO TAMANHO
+    min-height: 400px; // <-- AUMENTADO PARA O DOBRO DO TAMANHO
+    width: 400px;      // Define o tamanho padrão
+    height: 400px;     // Define o tamanho padrão
     @include flex-center();
 
-    .fa-calendar-days {
-      font-size: 150px;
-      color: $icon-color-light;
-      opacity: 0.9;
+    img {
+      width: 100%; // Faz a imagem ocupar 100% do container acima
+      height: auto;
+    }
+  }
+}
+
+.form-panel {
+  flex: 1;
+  padding: 40px 50px;
+  background-color: #fff;
+
+  h2 {
+    text-align: left;
+    color: $primary-dark-blue;
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+    position: relative;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: $label-color;
+      font-weight: 500;
     }
 
-    .brain-overlay {
-      font-size: 80px;
-      color: darken($icon-color-light, 5%);
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid $input-border-color;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 15px;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $input-focus-border-color;
+        box-shadow: 0 0 0 2px rgba($primary-button-blue, 0.2);
+      }
+
+      &.ng-invalid.ng-touched {
+        border-color: $error-color;
+      }
+    }
+
+    .error-message {
+      font-size: 0.8rem;
+      color: $error-color;
+      margin-top: 4px;
+      text-align: left;
+    }
+  }
+
+  .sub-links {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10px;
+    margin-bottom: 25px;
+
+    .forgot-password-link {
+      font-size: 13px;
+      color: $link-color;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: $primary-button-blue;
+    color: $text-color-light;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background-color: $secondary-button-blue-hover;
+    }
+    &:disabled {
+      background-color: lighten($primary-button-blue, 15%);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  .signup-link {
+    font-size: 14px;
+    color: $label-color;
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+    a {
+      color: $link-color;
+      text-decoration: none;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .separator-text {
+    font-size: 14px;
+    color: $separator-text-color;
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      width: 35%;
+      height: 1px;
+      background-color: $input-border-color;
       position: absolute;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -60%);
-      opacity: 0.95;
+    }
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      right: 0;
+    }
+  }
+
+  .social-login {
+    @include flex-center(row, center, center);
+    gap: 20px;
+
+    .social-btn {
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      @include flex-center();
+      cursor: pointer;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+
+      i {
+        font-size: 22px;
+      }
+// Variáveis de Cor
+$primary-dark-blue: #043791;
+$primary-button-blue: #4a7dff;
+$secondary-button-blue-hover: #3a6add;
+$text-color-dark: #333;
+$text-color-light: #ffffff;
+$label-color: #555;
+$input-border-color: #ccc;
+$input-focus-border-color: $primary-button-blue;
+$separator-text-color: #777;
+$link-color: $primary-button-blue;
+$icon-color-light: #ffffff;
+$error-color: #e53935;
+
+// Variáveis de Fonte
+$font-family-primary: 'Inter', 'Arial', sans-serif;
+
+// Mixins
+@mixin flex-center($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+// Estilos para o host do componente
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: $font-family-primary;
+  background-color: #f4f7fc;
+}
+
+.login-container {
+  display: flex;
+  width: 900px;
+  max-width: 100%;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.icon-panel {
+  flex: 1;
+  background-color: $primary-dark-blue;
+  @include flex-center();
+  padding: 40px;
+  position: relative;
+
+  .main-icon-wrapper {
+    // AUMENTANDO O TAMANHO NOVAMENTE
+    min-width: 300px;
+    min-height: 300px;
+    width: 300px;
+    height: 300px;
+    @include flex-center();
+
+    img {
+      width: 100%;
+      height: auto;
     }
   }
 }
@@ -249,38 +462,31 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
 }
 
 // Media Queries para Responsividade
-@media (max-width: 900px) { // Ajustado o breakpoint para quando o layout de duas colunas pode quebrar
+@media (max-width: 900px) {
   .login-container {
     flex-direction: column;
     width: 100%;
-    max-width: 480px; // Limita a largura em telas menores para o formulário
-    // margin: 20px; // O padding no :host já cuida disso
+    max-width: 480px;
   }
 
   .icon-panel {
-    // Ocultar em telas muito pequenas ou quando o layout é de coluna única
-    // display: none; 
-    // Ou, se quiser manter mas menor:
-    flex: 0 0 auto; // Não cresce, não encolhe, baseia-se no conteúdo
-    width: 100%; // Ocupa a largura total quando em coluna
-    min-height: 180px; // Altura mínima se visível
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: 180px;
     padding: 25px;
-    border-bottom-left-radius: 0; // Remove arredondamento inferior se estiver acima do formulário
+    border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 
     .main-icon-wrapper {
-      .fa-calendar-days {
-        font-size: 100px;
-      }
-      .brain-overlay {
-        font-size: 50px;
-        transform: translate(-50%, -58%);
-      }
+        min-width: 120px; // Tamanho para telas médias
+        min-height: 120px;
+        width: 120px;
+        height: 120px;
     }
   }
 
   .form-panel {
-    padding: 30px 35px; // Ajustar padding
+    padding: 30px 35px;
     width: 100%;
     box-sizing: border-box;
     h2 {
@@ -294,12 +500,10 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
     .icon-panel {
         min-height: 150px;
         .main-icon-wrapper {
-            .fa-calendar-days {
-                font-size: 80px;
-            }
-            .brain-overlay {
-                font-size: 40px;
-            }
+            min-width: 100px; // Tamanho para telas pequenas
+            min-height: 100px;
+            width: 100px;
+            height: 100px;
         }
     }
     .form-panel {
@@ -333,3 +537,17 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
         }
     }
 }
+      &.google i { color: #DB4437; }
+      &.apple i { color: #000000; }
+      &.facebook i { color: #4267B2; }
+
+      &:hover {
+        background-color: #f5f5f5;
+        border-color: #d0d0d0;
+      }
+    }
+  }
+}
+
+// Media Queries para Responsividade
+// As regras aqui dentro sobres

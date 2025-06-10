@@ -1,212 +1,225 @@
 .container.routine-builder { // Estilo específico para o container da rotina
-    max-width: 800px;
-    h2 {
-      margin-bottom: 10px;
-    }
-    .subtitle {
-      margin-top: 0;
-      margin-bottom: 25px;
-      color: #555;
-      font-size: 1em;
-    }
-  }
-  
-  .activities-list {
-    margin-bottom: 20px;
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #fafafa;
-  }
-  
-  .activity-item {
-    display: flex;
-    align-items: flex-end; // Alinha os botões e inputs na base
-    gap: 15px;
-    padding: 15px;
+  max-width: 800px;
+  margin-left: auto;      // Centraliza na página
+  margin-right: auto;     // Centraliza na página
+  padding: 20px;          // Adiciona um respiro nas laterais
+
+  h2 {
     margin-bottom: 10px;
-    background-color: #fff;
-    border: 1px solid #e9e9e9;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; // Faz os inputs de nome e hora ocuparem espaço
-  
-    label {
-      font-size: 0.85em;
-      color: #666;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-  
-    .form-control {
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1em;
-      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  
-      &:focus {
-        border-color: #3498db;
-        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        outline: none;
-      }
-    }
-  }
-  
-  .activity-name {
-    flex-basis: 40%; // Mais espaço para o nome da atividade
-  }
-  .activity-time {
-    flex-basis: 25%; // Espaço para os inputs de hora
-  }
-  
-  
-  .remove-activity-btn {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 50%; // Botão redondo
-    width: 30px;
-    height: 30px;
-    font-size: 1.2em;
-    line-height: 28px; // Centralizar o 'X'
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin-left: 10px; // Espaço à esquerda do botão
-    align-self: center; // Centraliza verticalmente com os inputs mais altos
-  
-    &:hover {
-      background-color: #c0392b;
-    }
-    &:disabled {
-      background-color: #d0d0d0;
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-  }
-  
-  .actions-toolbar {
-    display: flex;
-    justify-content: space-between; // Botões em lados opostos
-    align-items: center;
-    margin-top: 20px;
+  .subtitle {
+    margin-top: 0;
     margin-bottom: 25px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-  }
-  
-  .btn { // Estilo base para botões
-    padding: 10px 20px;
+    color: #555;
     font-size: 1em;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  
-    .spinner { // Reutilizando o spinner
-      margin-right: 8px;
-    }
-  
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
   }
-  
-  .btn-primary {
-    background-color: #3498db;
-    color: white;
-    &:hover:not(:disabled) { background-color: #2980b9; }
+}
+
+.activities-list {
+  margin-bottom: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fafafa;
+}
+
+// O .activity-item agora alinha o grupo de inputs com o botão
+.activity-item {
+  display: flex;
+  align-items: center; // Alinha os filhos (o grupo de inputs e o botão) ao centro
+  gap: 15px; // Espaçamento entre o grupo de inputs e o botão
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #e9e9e9;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+  &:last-child {
+    margin-bottom: 0;
   }
-  
-  .btn-secondary {
-    background-color: #95a5a6;
-    color: white;
-    &:hover:not(:disabled) { background-color: #7f8c8d; }
-  }
-  
-  .generated-routine-display {
-    margin-top: 25px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-  
-    h3 {
-      margin-top: 0;
-      color: #2c3e50;
-      border-bottom: 1px solid #e0e0e0;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
-    }
-  
-    .routine-text {
-      white-space: pre-wrap; // Mantém quebras de linha e espaços
-      font-family: 'Courier New', Courier, monospace; // Fonte monoespaçada para melhor leitura de rotina
-      font-size: 0.95em;
-      line-height: 1.6;
-      color: #333;
-      background-color: #fff;
-      padding: 15px;
-      border-radius: 4px;
-      border: 1px solid #eee;
-      overflow-x: auto; // Scroll horizontal se necessário
-    }
-  }
-  
-  // (Estilos para .status-message, .spinner, etc., que você já tem, podem ser mantidos)
-  .compact-status {
-    padding: 8px 12px;
-    font-size: 0.9em;
-    margin-top: 10px;
-  }
-  .small-spinner { // Se ainda não tiver
-    width: 16px;
-    height: 16px;
-    border-width: 2px;
-  }
-  @keyframes spin { // Se ainda não tiver
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  .spinner {
-    display: inline-block;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 0.8s ease-in-out infinite;
+}
+
+// Nova classe para agrupar os inputs
+.activity-inputs-group {
+  display: flex;
+  flex-grow: 1; // Faz o grupo ocupar todo o espaço disponível
+  gap: 15px; // Espaçamento entre os inputs
+  align-items: flex-end; // Alinha os inputs pela base, ignorando os labels
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; // Faz os inputs de nome e hora ocuparem espaço
+
+  label {
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 5px;
+    font-weight: 500;
   }
 
-  .status-message {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 6px;
-    font-size: 1.05em;
-  }
-  .loading-message {
-    color: #34495e;
-    background-color: #ecf0f1;
-    border: 1px solid #dadedf;
-  }
-  .error-message {
-    background-color: #ffebee;
-    color: #c0392b;
-    border: 1px solid #e74c3c;
-    p strong {
-      color: #a31f1f;
+  .form-control {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      outline: none;
     }
   }
+}
+
+.activity-name {
+  flex-basis: 40%; // Mais espaço para o nome da atividade
+}
+.activity-time {
+  flex-basis: 25%; // Espaço para os inputs de hora
+}
+
+
+.remove-activity-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%; // Botão redondo
+  width: 30px;
+  height: 30px;
+  font-size: 1.2em;
+  line-height: 28px; // Centralizar o 'X'
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-left: 10px; // Espaço à esquerda do botão
+  flex-shrink: 0; // Impede que o botão encolha
+
+  &:hover {
+    background-color: #c0392b;
+  }
+  &:disabled {
+    background-color: #d0d0d0;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.actions-toolbar {
+  display: flex;
+  justify-content: space-between; // Botões em lados opostos
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.btn { // Estilo base para botões
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  .spinner { // Reutilizando o spinner
+    margin-right: 8px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+  &:hover:not(:disabled) { background-color: #2980b9; }
+}
+
+.btn-secondary {
+  background-color: #95a5a6;
+  color: white;
+  &:hover:not(:disabled) { background-color: #7f8c8d; }
+}
+
+.generated-routine-display {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+
+  h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+
+  .routine-text {
+    white-space: pre-wrap; // Mantém quebras de linha e espaços
+    font-family: 'Courier New', Courier, monospace; // Fonte monoespaçada para melhor leitura de rotina
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    overflow-x: auto; // Scroll horizontal se necessário
+  }
+}
+
+// (Estilos para .status-message, .spinner, etc., que você já tem, podem ser mantidos)
+.compact-status {
+  padding: 8px 12px;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+.small-spinner { // Se ainda não tiver
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+@keyframes spin { // Se ainda não tiver
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  display: inline-block;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s ease-in-out infinite;
+}
+
+.status-message {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 1.05em;
+}
+.loading-message {
+  color: #34495e;
+  background-color: #ecf0f1;
+  border: 1px solid #dadedf;
+}
+.error-message {
+  background-color: #ffebee;
+  color: #c0392b;
+  border: 1px solid #e74c3c;
+  p strong {
+    color: #a31f1f;
+  }
+}
