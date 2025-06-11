@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3000
 
 # Comando para iniciar sua aplicação backend em modo de desenvolvimento
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
