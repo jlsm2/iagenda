@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TestFacade } from '../../facades/test-facade';
+import { CampoAtividadesFlexiveisComponent } from '../campo-atividades-flexiveis/campo-atividades-flexiveis.component';
 
 interface Activity {
   id: number;
@@ -20,7 +21,7 @@ interface ActivityPayload {
 @Component({
   selector: 'app-test-display',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CampoAtividadesFlexiveisComponent],
   templateUrl: './test-display.component.html',
   styleUrls: ['./test-display.component.scss']
 })

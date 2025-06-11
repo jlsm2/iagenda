@@ -1,0 +1,39 @@
+<div class="page-container">
+  <header class="page-header">
+    <span class="material-icons icon-button" routerLink="/test">arrow_back</span>
+    <h1 class="page-title">Olá, Usuário!</h1>
+    <span class="material-icons icon-button">person_outline</span>
+  </header>
+
+  <main class="routine-content">
+    <div class="routine-header">
+      <h2>Sua rotina de hoje: <br><span>6:00 da manhã - 22:00 da noite</span></h2>
+      <span class="material-icons icon-button">filter_list</span>
+    </div>
+
+    <div class="routine-list">
+      <div
+        *ngFor="let atividade of atividades"
+        class="routine-item"
+        [style.backgroundColor]="atividade.corFundo"
+      >
+        <div class="item-info">
+          <span class="item-title">{{ atividade.titulo }} {{ atividade.horario }} {{ atividade.emoji }}</span>
+        </div>
+
+        <div class="item-actions">
+            <span class="material-icons edit-icon">edit</span>
+            <button
+                class="status-button"
+                (click)="toggleStatus(atividade)"
+                [ngClass]="{ 'realizada': atividade.realizada }"
+                [style.borderColor]="atividade.cor"
+                [style.backgroundColor]="atividade.realizada ? atividade.cor : 'transparent'"
+            >
+                <span class="check-icon">✓</span>
+            </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
