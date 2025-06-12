@@ -25,7 +25,7 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       console.log('Dados do Login:', this.loginForm.value);
-      this.router.navigate(['/test']);
+      this.router.navigate(['/home']);
     } else {
       console.log('Formulário de login inválido.');
       this.markAllAsTouched();

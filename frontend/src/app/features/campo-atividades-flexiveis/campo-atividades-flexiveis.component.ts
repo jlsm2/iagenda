@@ -2,20 +2,18 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TestFacade } from '../../facades/test-facade';
+import { FlexibleActivitiesFacade } from '../../facades/flexible-activities'; // Importa o facade correto
 
+// Interface para o estado local deste componente
 interface Activity {
   id: number;
   name: string;
-  startTime: string;
-  endTime: string;
-  duration: number; // duração da atividade em minutos
+  duration: number;
 }
 
-interface ActivityPayload {
+// Interface para o payload que o facade espera
+interface FlexibleActivityPayload {
   name: string;
-  startTime: string;
-  endTime: string;
   duration: number;
 }
 
@@ -28,16 +26,18 @@ interface ActivityPayload {
 })
 export class CampoAtividadesFlexiveisComponent {
   activities: Activity[] = [];
-  private nextId = 0; // contador para IDs únicos
+  private nextId = 0;
 
   generatedRoutine$: Observable<string | null>;
   isProcessing$: Observable<boolean>;
   processingError$: Observable<string | null>;
 
-  constructor(private testFacade: TestFacade) {
-    this.generatedRoutine$ = this.testFacade.apiResponseMessage$; // resposta da API
-    this.isProcessing$ = this.testFacade.isProcessing$;
-    this.processingError$ = this.testFacade.processingError$;
+  constructor(private flexibleActivitiesFacade: FlexibleActivitiesFacade) { // Injeta o facade correto
+    // Observa os observables do facade de atividades flexíveis
+    this.generatedRoutine$ = this.flexibleActivitiesFacade.generatedRoutine$;
+    this.isProcessing$ = this.flexibleActivitiesFacade.isProcessing$;
+    this.processingError$ = this.flexibleActivitiesFacade.processingError$;
+    
     this.addActivity();
   }
 
@@ -45,9 +45,7 @@ export class CampoAtividadesFlexiveisComponent {
     this.activities.push({
       id: this.nextId++,
       name: '',
-      startTime: '',
-      endTime: '',
-      duration: 30 // duração padrão de 30 minutos
+      duration: 30
     });
   }
 
@@ -58,23 +56,26 @@ export class CampoAtividadesFlexiveisComponent {
     }
   }
 
-  generateRoutine(): void {
-    // validação básica antes de enviar
+  generateFlexibleRoutine(): void {
     const validActivities = this.activities.filter(
-      act => act.name.trim() !== '' &&
-             act.startTime.trim() !== '' &&
-             act.endTime.trim() !== '' &&
-             act.duration > 0
+      act => 
+        act.name.trim() !== '' &&
+        act.duration != null &&
+        act.duration > 0
     );
 
-    const activityPayloads: ActivityPayload[] = validActivities.map(act => ({
+    const activityPayloads: FlexibleActivityPayload[] = validActivities.map(act => ({
       name: act.name,
-      startTime: act.startTime,
-      endTime: act.endTime,
       duration: act.duration
     }));
+    
+    if (activityPayloads.length === 0) {
+      alert('Por favor, adicione pelo menos uma atividade flexível com nome e duração válidos.');
+      return;
+    }
 
-    this.testFacade.submitActivitiesForRoutine(activityPayloads);
+    // Chama o método do facade correto
+    this.flexibleActivitiesFacade.submitFlexibleActivities(activityPayloads);
   }
 
   trackActivityById(index: number, activity: Activity): number {

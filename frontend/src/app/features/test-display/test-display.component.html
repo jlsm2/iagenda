@@ -16,6 +16,9 @@
           <label [for]="'endTime-' + activity.id">Horário de Término</label>
           <input type="time" [id]="'endTime-' + activity.id" [(ngModel)]="activity.endTime" class="form-control">
         </div>
+        <button (click)="removeActivity(activity.id)" class="remove-activity-btn" title="Remover atividade" [disabled]="activities.length <= 1">
+        &times;
+      </button>
       </div>
     </div>
 

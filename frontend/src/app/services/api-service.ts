@@ -25,7 +25,7 @@ export class ApiService {
     return this.http.post<ApiResponse>(`${this.apiUrl}/send-message`, { message: userMessage });
   }
 
-  generateRoutine(activities: ActivityPayload[]): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/generate-routine`, { activities });
+  generateRoutine(payload: { type: string, activities: ActivityPayload[] }): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.apiUrl}/generate-routine`, payload);
   }
 }

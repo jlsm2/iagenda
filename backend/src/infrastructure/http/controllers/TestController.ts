@@ -23,13 +23,6 @@ export class TestController {
     return;
     }
 
-    for (const activity of activities) {
-    if (!activity.name || !activity.startTime || !activity.endTime) {
-        res.status(400).json({ error: 'Todas as atividades devem ter nome, horário de início e horário de término.'});
-        return;
-    }
-    }
-
     const routineResponse = await this.generateRoutineUseCase.execute(activities);
     res.json({ response: routineResponse }); 
   }

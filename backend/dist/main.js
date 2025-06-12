@@ -3,20 +3,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const TestController_1 = require("./infrastructure/http/controllers/TestController");
-const GetTestDataUseCase_1 = require("./application/usecases/GetTestDataUseCase");
+const ProcessMessageUseCase_1 = require("./application/usecases/ProcessMessageUseCase");
+const GenerateRoutineUseCase_1 = require("./application/usecases/GenerateRoutineUseCase");
 const app = (0, express_1.default)();
-const port = 3000; // Porta do backend
-// Middlewares
-app.use((0, cors_1.default)()); // Habilita CORS para permitir requisições do frontend
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-// Instanciando casos de uso e controllers
-const getTestDataUseCase = new GetTestDataUseCase_1.GetTestDataUseCase();
-const testController = new TestController_1.TestController(getTestDataUseCase);
-// Rotas
-app.get('/api/test', (req, res) => testController.getTestData(req, res));
+const processMessageUseCase = new ProcessMessageUseCase_1.ProcessMessageUseCase();
+const generateRoutineUseCase = new GenerateRoutineUseCase_1.GenerateRoutineUseCase();
+const testController = new TestController_1.TestController(processMessageUseCase, generateRoutineUseCase);
+app.post('/api/send-message', (req, res) => testController.processUserMessage(req, res));
+app.post('/api/generate-routine', (req, res) => testController.generateUserRoutine(req, res));
 app.listen(port, () => {
-    console.log(`🚀 Backend rodando em http://localhost:${port}`);
+    console.log(`Backend rodando em http://localhost:${port}`);
+    console.log(`Endpoint de chat POST: http://localhost:${port}/api/send-message`);
+    console.log(`Endpoint de gerar rotina POST: http://localhost:${port}/api/generate-routine`);
 });

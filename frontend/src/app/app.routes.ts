@@ -9,8 +9,7 @@ import { DailyRoutineComponent } from './features/salva-rotina/daily-routine/dai
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'cadastro', component: CadastroComponent },
-  { path: 'test', component: TestDisplayComponent },
-  { path: 'atividades', component: CampoAtividadesFlexiveisComponent},
+  { path: 'home', component: TestDisplayComponent },
   { path: 'rotina', component: DailyRoutineComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' },
