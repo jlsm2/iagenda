@@ -2,17 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestController = void 0;
 class TestController {
-    constructor(getTestDataUseCase) {
-        this.getTestDataUseCase = getTestDataUseCase;
+    constructor(processMessageUseCase, generateRoutineUseCase) {
+        this.processMessageUseCase = processMessageUseCase;
+        this.generateRoutineUseCase = generateRoutineUseCase;
     }
-    getTestData(req, res) {
-        try {
-            const data = this.getTestDataUseCase.execute();
-            res.json(data);
+    async processUserMessage(req, res) { }
+    // Novo método para gerar rotina
+    async generateUserRoutine(req, res) {
+        const activities = req.body.activities;
+        if (!activities || !Array.isArray(activities) || activities.length === 0) {
+            res.status(400).json({ error: 'Nenhuma atividade fornecida ou formato inválido. Envie um JSON como {"activities": [ ...lista de atividades... ]}' });
+            return;
         }
-        catch (error) {
-            res.status(500).json({ error: 'Erro ao buscar dados.' });
-        }
+        const routineResponse = await this.generateRoutineUseCase.execute(activities);
+        res.json({ response: routineResponse });
     }
 }
 exports.TestController = TestController;

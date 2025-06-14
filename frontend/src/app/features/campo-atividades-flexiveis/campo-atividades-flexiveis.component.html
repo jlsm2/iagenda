@@ -20,7 +20,7 @@
 
   <div class="actions-toolbar">
     <button (click)="addActivity()" class="btn btn-secondary">Adicionar Atividade</button>
-    <button (click)="generateRoutine()" class="btn btn-primary" [disabled]="(isProcessing$ | async) || activities.length === 0">
+    <button (click)="generateFlexibleRoutine()" class="btn btn-primary" [disabled]="(isProcessing$ | async) || activities.length === 0">
       <span *ngIf="!(isProcessing$ | async)">Gerar Rotina</span>
       <span *ngIf="(isProcessing$ | async)">
         <span class="spinner small-spinner"></span> Gerando...

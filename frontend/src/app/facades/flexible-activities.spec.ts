@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TestFacade } from './test-facade';
+import { FlexibleActivities } from './flexible-activities';
 
-describe('TestFacade', () => {
-  let service: TestFacade;
+describe('FlexibleActivities', () => {
+  let service: FlexibleActivities;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TestFacade);
+    service = TestBed.inject(FlexibleActivities);
   });
 
   it('should be created', () => {
