@@ -13,7 +13,7 @@ Node.js 18+
 npm 9+
 Angular CLI 20
 Um banco de dados configurado (PostgreSQL, Oracle, etc., dependendo da configuração do backend)
-Docker (opcional, para facilitar a configuração do ambiente)
+Docker
 ## 🔧 Como Usar
 Siga os passos abaixo para configurar e executar o projeto localmente.
 1. Clonar o Repositório
@@ -22,30 +22,16 @@ git clone <url-do-repositorio>
 cd <nome-do-repositorio>
 
 
-2. Instalar Dependências
-Navegue para cada pasta (frontend e backend) e instale as respectivas dependências.
-Frontend (Angular):
-cd frontend
-npm install
-
-
-Backend (NestJS):
+2. Rodar com o Docker
+Navegue para a pasta do backend e rode o seguinte comando:
 cd backend
-npm install
+npm run build
 
+Depois volte para a raiz da aplicação e, com o Docker rodando, rode:
+cd ..
+docker-compose up --build
 
-## 🌐 Frontend (Angular)
-Esta aplicação frontend foi gerada utilizando Angular CLI versão 20.0.0.
-### 📦 Principais Bibliotecas e Conceitos
-Angular Standalone Components
-Angular Forms / ReactiveForms
-Angular Router
-RxJS
-HttpClient para comunicação com a API
-## 🚀 Servidor de Desenvolvimento
-Para iniciar o servidor de desenvolvimento do frontend:
-cd frontend
-ng serve
+O Dockerfile ja vai instalar todas as dependecias e rodar tanto o back quanto o front
 
 
 Após iniciar, acesse a aplicação no seu navegador em: http://localhost:4200.
