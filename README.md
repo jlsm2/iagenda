@@ -24,12 +24,12 @@ cd <nome-do-repositorio>
 
 2. Rodar com o Docker
 Navegue para a pasta do backend e rode o seguinte comando:
-cd backend
-npm run build
+- cd backend
+- npm run build
 
 Depois volte para a raiz da aplicação e, com o Docker rodando, rode:
-cd ..
-docker-compose up --build
+- cd ..
+- docker-compose up --build
 
 O Dockerfile ja vai instalar todas as dependecias e rodar tanto o back quanto o front
 
