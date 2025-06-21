@@ -1,24 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { tap, catchError, finalize } from 'rxjs/operators';
-import { ApiService, ApiResponse } from '../services/api-service';
+import { ApiService, ApiResponse, UnifiedRoutinePayload } from '../services/api-service';
 
-interface ActivityPayload {
-  name: string;
-  duration: number;
-  startTime: string;
-  endTime: string;
-}
-
-interface FlexibleActivityPayload {
-  name: string;
-  duration: number;
-}
+export interface FixedActivityPayload { name: string; startTime: string; endTime: string; }
+export interface FlexibleActivityPayload { name: string; duration: number; }
 
 @Injectable({
   providedIn: 'root'
 })
-export class FlexibleActivitiesFacade {
+export class RoutineFacade {
   private _generatedRoutine$ = new BehaviorSubject<string | null>(null);
   readonly generatedRoutine$: Observable<string | null> = this._generatedRoutine$.asObservable();
 
@@ -30,28 +21,24 @@ export class FlexibleActivitiesFacade {
 
   constructor(private apiService: ApiService) {}
 
-  submitFlexibleActivities(activities: FlexibleActivityPayload[]): void {
+  generateUnifiedRoutine(fixed: FixedActivityPayload[], flexible: FlexibleActivityPayload[]): void {
     this._isProcessing$.next(true);
     this._processingError$.next(null);
     this._generatedRoutine$.next(null);
 
-    const activitiesForApi: ActivityPayload[] = activities.map(act => ({
-      name: act.name,
-      duration: act.duration,
-      startTime: '',
-      endTime: ''
-    }));
-
-    const payload = { type: 'flexivel', activities: activitiesForApi };
+    const payload: UnifiedRoutinePayload = {
+      fixedActivities: fixed,
+      flexibleActivities: flexible
+    };
 
     this.apiService.generateRoutine(payload).pipe(
       tap((apiResponse: ApiResponse) => {
         this._generatedRoutine$.next(apiResponse.response);
       }),
       catchError((error) => {
-        console.error('Erro ao gerar rotina flexível:', error);
-        const errorMsg = typeof error.error === 'string' ? error.error : (error.error?.error || 'Falha ao gerar a rotina com atividades flexíveis.');
+        const errorMsg = error.error?.error || 'Falha ao gerar a rotina.';
         this._processingError$.next(errorMsg);
+        this._generatedRoutine$.next(null);
         return of(null);
       }),
       finalize(() => this._isProcessing$.next(false))

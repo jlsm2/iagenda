@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router'; // Importa o RouterLink
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +9,7 @@ import { Router, RouterLink } from '@angular/router'; // Importa o RouterLink
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink // Adicionado RouterLink aos imports
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -23,9 +23,15 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   onSubmit() {
+    // A validação do formulário pode ser mais complexa aqui no futuro
+    // (ex: chamar um serviço de autenticação)
     if (this.loginForm.valid) {
-      console.log('Dados do Login:', this.loginForm.value);
-      this.router.navigate(['/home']);
+      console.log('Login bem-sucedido! Navegando para o planner...');
+      
+      // --- CORREÇÃO AQUI ---
+      // Navega para a rota '/planner' que definimos no app.routes.ts
+      this.router.navigate(['/planner']);
+
     } else {
       console.log('Formulário de login inválido.');
       this.markAllAsTouched();
