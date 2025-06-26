@@ -1,0 +1,85 @@
+<main class="planner-container">
+    <!-- SEÇÃO 1: ATIVIDADES FIXAS (baseado no seu testdisplay.html) -->
+    <div class="card-section">
+      <h2>Monte sua Rotina Diária</h2>
+      <p class="subtitle">Adicione suas atividades fixas e horários. A IA ajudará a organizar seu dia!</p>
+  
+      <div class="activities-list">
+        <div *ngFor="let activity of fixedActivities; let i = index; trackBy: trackById" class="activity-item">
+          <div class="form-group activity-name">
+            <label [for]="'fixedActivityName-' + activity.id">Atividade {{ i + 1 }}</label>
+            <input type="text" [id]="'fixedActivityName-' + activity.id" [(ngModel)]="activity.name" placeholder="Ex: Academia, Estudar..." class="form-control">
+          </div>
+          <div class="form-group activity-time">
+            <label [for]="'startTime-' + activity.id">Horário de Início</label>
+            <input type="time" [id]="'startTime-' + activity.id" [(ngModel)]="activity.startTime" class="form-control">
+          </div>
+          <div class="form-group activity-time">
+            <label [for]="'endTime-' + activity.id">Horário de Término</label>
+            <input type="time" [id]="'endTime-' + activity.id" [(ngModel)]="activity.endTime" class="form-control">
+          </div>
+          <button (click)="removeFixedActivity(activity.id)" class="remove-btn" title="Remover atividade" [disabled]="fixedActivities.length <= 1">
+            &times;
+          </button>
+        </div>
+      </div>
+  
+      <div class="actions-toolbar section-toolbar">
+        <button (click)="addFixedActivity()" class="btn btn-secondary">Adicionar Atividade</button>
+        <!-- O botão Gerar Rotina foi removido daqui -->
+      </div>
+    </div>
+  
+  
+    <!-- SEÇÃO 2: ATIVIDADES FLEXÍVEIS (baseado no seu atividade flexivel.html) -->
+    <div class="card-section">
+      <h2>Monte sua Rotina Flexível</h2>
+      <p class="subtitle">Adicione suas atividades flexíveis e deixe a IA encontrar a melhor maneira de encaixá-las na sua rotina!</p>
+  
+      <div class="activities-list">
+        <div *ngFor="let activity of flexibleActivities; let i = index; trackBy: trackById" class="activity-item">
+          <div class="form-group activity-name">
+            <label [for]="'flexibleActivityName-' + activity.id">Atividade {{ i + 1 }}</label>
+            <input type="text" [id]="'flexibleActivityName-' + activity.id" [(ngModel)]="activity.name" placeholder="Ex: Ler, meditar..." class="form-control">
+          </div>
+          <div class="form-group activity-duration">
+            <label [for]="'activityDuration-' + activity.id">Duração (minutos)</label>
+            <input type="number" [id]="'activityDuration-' + activity.id" [(ngModel)]="activity.duration" class="form-control" min="1" placeholder="Ex: 30">
+          </div>
+          <button (click)="removeFlexibleActivity(activity.id)" class="remove-btn" title="Remover atividade" [disabled]="flexibleActivities.length <= 1">
+            &times;
+          </button>
+        </div>
+      </div>
+  
+      <div class="actions-toolbar section-toolbar">
+        <button (click)="addFlexibleActivity()" class="btn btn-secondary">Adicionar Atividade</button>
+         <!-- O botão Gerar Rotina foi removido daqui -->
+      </div>
+    </div>
+  
+  
+    <!-- BOTÃO DE AÇÃO PRINCIPAL (UNIFICADO) -->
+    <div class="main-action-toolbar">
+      <button (click)="generateUnifiedRoutine()" class="btn btn-primary generate-btn" [disabled]="(isProcessing$ | async)">
+        <span *ngIf="!(isProcessing$ | async)">Gerar Rotina Unificada</span>
+        <span *ngIf="(isProcessing$ | async)"><span class="spinner small-spinner"></span> Gerando...</span>
+      </button>
+    </div>
+  
+  
+    <!-- ÁREA DE RESULTADOS -->
+    <div class="results-area" *ngIf="(isProcessing$ | async) || (processingError$ | async) || (generatedRoutine$ | async)">
+      <div *ngIf="(isProcessing$ | async)" class="status-message loading-message">
+        <p>⏳ Processando sua rotina com a IA...</p>
+      </div>
+      <div *ngIf="(processingError$ | async) as errorMsg" class="status-message error-message">
+        <p><strong>⚠️ Erro:</strong> {{ errorMsg }}</p>
+      </div>
+      <div *ngIf="(generatedRoutine$ | async) as routine" class="generated-routine-display">
+        <h3>Sugestão de Rotina:</h3>
+        <pre class="routine-text">{{ routine }}</pre>
+      </div>
+    </div>
+  
+  </main>

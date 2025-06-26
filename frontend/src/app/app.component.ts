@@ -1,14 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Navbar } from './shared/navbar/navbar';
-import { CampoAtividadesFlexiveisComponent } from "./features/campo-atividades-flexiveis/campo-atividades-flexiveis.component";
+
+// 1. Importa o seu componente Navbar
+import { Navbar } from './shared/navbar/navbar'; // Ajuste o caminho se necessário
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, CampoAtividadesFlexiveisComponent],
+  standalone: true,
+  // 2. Adiciona o Navbar aos imports para que ele possa ser usado no template
+  imports: [
+    RouterOutlet,
+    Navbar
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'iagenda';
+  title = 'iAgenda';
 }

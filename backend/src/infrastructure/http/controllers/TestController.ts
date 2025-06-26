@@ -1,29 +1,40 @@
 import { Request, Response } from 'express';
 import { ProcessMessageUseCase } from '../../../application/usecases/ProcessMessageUseCase';
-import { GenerateRoutineUseCase } from '../../../application/usecases/GenerateRoutineUseCase'; // Importar
+import { GenerateRoutineUseCase } from '../../../application/usecases/GenerateRoutineUseCase';
 
-interface Activity {
-  name: string;
-  startTime: string;
-  endTime: string;
-}
+// Removido a interface Activity daqui, pois ela está definida nos Use Cases.
 
 export class TestController {
   constructor(
     private processMessageUseCase: ProcessMessageUseCase,
     private generateRoutineUseCase: GenerateRoutineUseCase
   ) {}
-  async processUserMessage(req: Request, res: Response): Promise<void> {}
 
-  // Novo método para gerar rotina
+  async processUserMessage(req: Request, res: Response): Promise<void> {
+    // Se quiser manter o chat, a lógica viria aqui. Por enquanto, pode deixar vazio.
+  }
+
+  /**
+   * Recebe atividades fixas e flexíveis e chama o Use Case para gerar a rotina.
+   */
   async generateUserRoutine(req: Request, res: Response): Promise<void> {
-    const activities = req.body.activities as Activity[]; 
-    if (!activities || !Array.isArray(activities) || activities.length === 0) {
-    res.status(400).json({ error: 'Nenhuma atividade fornecida ou formato inválido. Envie um JSON como {"activities": [ ...lista de atividades... ]}' });
-    return;
-    }
+    try {
+      // Extrai as duas listas do corpo da requisição.
+      const { fixedActivities, flexibleActivities } = req.body;
 
-    const routineResponse = await this.generateRoutineUseCase.execute(activities);
-    res.json({ response: routineResponse }); 
+      // Validação básica
+      if (!fixedActivities && !flexibleActivities) {
+        res.status(400).json({ error: 'É necessário fornecer ao menos uma lista de atividades (fixedActivities ou flexibleActivities).' });
+        return;
+      }
+
+      // Chama o Use Case com ambas as listas (mesmo que uma delas esteja vazia)
+      const routineResponse = await this.generateRoutineUseCase.execute(fixedActivities || [], flexibleActivities || []);
+      res.json({ response: routineResponse });
+
+    } catch (error) {
+      console.error("Erro ao gerar rotina no controller:", error);
+      res.status(500).json({ error: 'Erro interno ao gerar a rotina.' });
+    }
   }
 }

@@ -1,0 +1,206 @@
+.planner-navbar {
+    background-color: #2c3e50; /* O azul escuro do seu header de login */
+    color: white;
+    padding: 0.75rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+  
+    .navbar-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+  
+      .navbar-logo {
+        height: 28px; // Ajuste o tamanho da sua logo conforme necessário
+        width: auto;
+      }
+  
+      h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+.planner-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem; // Adiciona padding para telas menores
+  }
+  
+  // Estilo para cada "card" de seção
+  .card-section {
+    background-color: #fdfdfd;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem; // Espaçamento entre os cards
+  
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+  
+    .subtitle {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+  }
+  
+  .activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .activity-item {
+    display: grid;
+    // Usamos grid para alinhar os campos
+    grid-template-columns: 2fr 1fr 1fr auto;
+    align-items: center;
+    gap: 1rem;
+  
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr; // Em telas pequenas, um item por linha
+    }
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  
+    label {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+      color: #333;
+    }
+  
+    input.form-control {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+  }
+  
+  .remove-btn {
+    background-color: #ffdddd;
+    color: #c0392b;
+    border: none;
+    border-radius: 18px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.25rem 0.75rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    justify-self: end; // Alinha o botão à direita na grid
+    margin-top: 1.6rem; // Alinha com os inputs que têm label
+  
+    &:hover {
+      background-color: #f8cfcf;
+      color: #a0271c;
+    }
+  
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  
+    @media (max-width: 768px) {
+      justify-self: end;
+      margin-top: 0.5rem;
+    }
+  }
+  
+  // Barra de ações DENTRO de cada card
+  .section-toolbar {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+  
+    &.btn-primary {
+      background-color: #007bff;
+      color: white;
+    }
+    &.btn-secondary {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  
+  .spinner.small-spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+  
+  // Botão principal UNIFICADO
+  .main-action-toolbar {
+    display: flex;
+    justify-content: center; // Centraliza o botão
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  
+    .generate-btn {
+      padding: 0.8rem 2.5rem; // Botão maior e mais destacado
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  }
+  
+  // Área de resultados
+  .results-area {
+    // Estilos para a área de resultados, se necessário
+  }
+  
+  .status-message {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    text-align: center;
+    &.loading-message { color: #333; }
+    &.error-message { color: #c00; }
+  }
+  
+  .generated-routine-display {
+    margin-top: 2rem;
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 8px;
+  
+    h3 { margin-bottom: 0.5rem; }
+    pre.routine-text {
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
