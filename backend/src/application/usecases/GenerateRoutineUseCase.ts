@@ -19,16 +19,9 @@ export class GenerateRoutineUseCase {
     this.interactionRepository = new InteractionRepository();
   }
 
-  /**
-   * Cria um prompt detalhado para a IA, incluindo atividades fixas e flexíveis.
-   * @param fixed A lista de atividades com horários fixos.
-   * @param flexible A lista de atividades com durações flexíveis.
-   * @returns A string de prompt completa a ser enviada para a IA.
-   */
   private formatActivitiesForPrompt(fixed: FixedActivity[], flexible: FlexibleActivity[]): string {
     let promptPart = "Você é um assistente especialista em criar rotinas diárias otimizadas. Sua tarefa é criar uma agenda detalhada e realista baseada nas informações a seguir.\n\n";
 
-    // Adiciona as atividades fixas, que são as restrições principais
     promptPart += "== ATIVIDADES FIXAS (OBRIGATÓRIAS) ==\n";
     promptPart += "Estes são compromissos com horários definidos que NÃO PODEM ser alterados ou movidos.\n";
     if (fixed && fixed.length > 0) {
@@ -40,9 +33,8 @@ export class GenerateRoutineUseCase {
     }
     promptPart += "\n";
 
-    // Adiciona as atividades flexíveis, que devem ser encaixadas nos horários livres
     promptPart += "== ATIVIDADES FLEXÍVEIS (PARA ENCAIXAR) ==\n";
-    promptPart += "Estas tarefas devem ser encaixadas nos horários livres disponíveis ao longo do dia, respeitando suas durações.\n";
+    promptPart += "Estas tarefas devem ser encaixadas nos horários livres disponíveis ao longo do dia. Lembre de se atentar à duração informada, cumpra ela rigorosamente.\n";
     if (flexible && flexible.length > 0) {
       flexible.forEach(activity => {
         promptPart += `- ${activity.name}: com duração exata de ${activity.duration} minutos.\n`;
@@ -52,35 +44,50 @@ export class GenerateRoutineUseCase {
     }
     promptPart += "\n";
 
-    // Instruções finais e regras para a IA
     promptPart += "== REGRAS DE GERAÇÃO (MUITO IMPORTANTES) ==\n";
-    promptPart += "1.  **NÃO DIVIDA AS ATIVIDADES FLEXÍVEIS**: Se uma atividade tem duração de 120 minutos, ela deve ser alocada em um único bloco de 2 horas contínuas.\n";
-    promptPart += "2.  **REFEIÇÕES**: Inclua Café da Manhã (entre 06:00 e 09:00), Almoço (obrigatoriamente entre 12:00 e 14:00) e Jantar (entre 18:00 e 21:00). A duração de cada refeição deve ser de 30 a 60 minutos.\n";
+    promptPart += "1.  Pode dividir as atividades flexíveis se você achar mais conveniente\n";
+    promptPart += "2.  **REFEIÇÕES**: Inclua Café da Manhã (preferencialmente entre 06:00 e 09:00), Almoço (preferencialmente entre 12:00 e 14:00) e Jantar (preferencialmente entre 18:00 e 21:00). A duração de cada refeição deve ser de 30 a 60 minutos.\n";
     promptPart += "3.  **PAUSAS**: Insira pausas curtas (10-15 minutos) entre atividades longas ou que exijam muita concentração.\n";
-    promptPart += "4.  **ESTRUTURA DO DIA**: Assuma que o dia começa às 06:00 com 'Acordar e higiene pessoal' e termina por volta das 22:30 com 'Preparação para dormir'.\n";
+    promptPart += "4.  **ESTRUTURA DO DIA**: Lembre de colocar o começo do dia com higiene pessoal e terminar o dia com prepração para dormir. Escolha a hora de acordar e dormir com base no horário das atividades informadas, tentando fazer com que tenha uma boa noite de sono.\n";
     promptPart += "5.  **FORMATO DA RESPOSTA**: A resposta deve ser APENAS a lista da rotina. Cada linha deve seguir o formato 'HH:MM – HH:MM: Nome da Atividade'. Não inclua introduções, conclusões, observações, negrito, asteriscos ou qualquer texto que não seja a rotina em si.\n";
-    promptPart += "6.  **CONFLITOS**: Se as atividades fixas se sobrepõem, aponte o conflito claramente em vez de gerar uma rotina inválida.\n\n";
+    promptPart += "6.  **CONFLITOS**: Se as atividades fixas se sobrepõem, aponte o conflito claramente em vez de gerar uma rotina inválida. Por fim, independente de qualquer coisa coloque as atividades obrigatórias nos horários delas.\n\n";
     promptPart += "== ROTINA GERADA: ==\n";
 
     return promptPart;
   }
 
-  /**
-   * Orquestra a geração da rotina: formata o prompt, chama a IA, salva a interação e retorna o resultado.
-   * @param fixedActivities A lista de atividades fixas do usuário.
-   * @param flexibleActivities A lista de atividades flexíveis do usuário.
-   * @returns Uma string com a rotina gerada ou uma mensagem de erro.
-   */
+  private summarizeUserActivities(fixed: FixedActivity[], flexible: FlexibleActivity[]): string {
+    let summary = "FIXAS:\n";
+    if (fixed && fixed.length > 0) {
+      fixed.forEach(act => {
+        summary += `- ${act.name}: ${act.startTime} às ${act.endTime}\n`;
+      });
+    } else {
+      summary += "- Nenhuma\n";
+    }
+
+    summary += "FLEXÍVEIS:\n";
+    if (flexible && flexible.length > 0) {
+      flexible.forEach(act => {
+        summary += `- ${act.name}: ${act.duration} min\n`;
+      });
+    } else {
+      summary += "- Nenhuma\n";
+    }
+
+    return summary;
+  }
+
   async execute(fixedActivities: FixedActivity[], flexibleActivities: FlexibleActivity[]): Promise<string> {
     if ((!fixedActivities || fixedActivities.length === 0) && (!flexibleActivities || flexibleActivities.length === 0)) {
       return "Por favor, forneça ao menos uma atividade (fixa ou flexível) para gerar a rotina.";
     }
 
     const prompt = this.formatActivitiesForPrompt(fixedActivities, flexibleActivities);
-    
-    // Configurações para controlar o comportamento do modelo de IA
+    const inputSummary = this.summarizeUserActivities(fixedActivities, flexibleActivities);
+
     const generationConfig: GenerationConfig = {
-      temperature: 0.3, // Deixa a IA mais focada e menos "criativa"
+      temperature: 0.3,
       topK: 1,
       topP: 1,
       maxOutputTokens: 2048,
@@ -89,7 +96,6 @@ export class GenerateRoutineUseCase {
     try {
       const model = this.genAI.getGenerativeModel({
         model: MODEL_NAME,
-        // Configurações de segurança para filtrar conteúdo inadequado
         safetySettings: [
           { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
           { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
@@ -99,30 +105,29 @@ export class GenerateRoutineUseCase {
         generationConfig,
       });
 
-      // Envia o prompt para a API do Gemini
       const result = await model.generateContent(prompt);
       const response = result.response;
       const text = response.text();
 
-      // Salva o resultado de sucesso no banco de dados para o histórico
       await this.interactionRepository.save({
-        prompt: prompt,
+        prompt,
         response: text,
         success: true,
+        input_summary: inputSummary,
       });
 
       return text;
 
     } catch (error) {
       const errorString = error instanceof Error ? error.message : JSON.stringify(error);
-      
-      // Salva o resultado de falha no banco de dados para o histórico
+
       await this.interactionRepository.save({
-        prompt: prompt,
+        prompt,
         error: errorString,
         success: false,
+        input_summary: inputSummary,
       });
-      
+
       console.error("Erro ao chamar a API do Gemini:", error);
       return "Desculpe, ocorreu um erro ao tentar gerar sua rotina com a API.";
     }
