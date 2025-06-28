@@ -44,14 +44,11 @@ export class GenerateRoutineUseCase {
     }
     promptPart += "\n";
 
-    promptPart += "== REGRAS DE GERAÇÃO (MUITO IMPORTANTES) ==\n";
-    promptPart += "1.  Pode dividir as atividades flexíveis se você achar mais conveniente\n";
-    promptPart += "2.  **REFEIÇÕES**: Inclua Café da Manhã (preferencialmente entre 06:00 e 09:00), Almoço (preferencialmente entre 12:00 e 14:00) e Jantar (preferencialmente entre 18:00 e 21:00). A duração de cada refeição deve ser de 30 a 60 minutos.\n";
-    promptPart += "3.  **PAUSAS**: Insira pausas curtas (10-15 minutos) entre atividades longas ou que exijam muita concentração.\n";
-    promptPart += "4.  **ESTRUTURA DO DIA**: Lembre de colocar o começo do dia com higiene pessoal e terminar o dia com prepração para dormir. Escolha a hora de acordar e dormir com base no horário das atividades informadas, tentando fazer com que tenha uma boa noite de sono.\n";
-    promptPart += "5.  **FORMATO DA RESPOSTA**: A resposta deve ser APENAS a lista da rotina. Cada linha deve seguir o formato 'HH:MM – HH:MM: Nome da Atividade'. Não inclua introduções, conclusões, observações, negrito, asteriscos ou qualquer texto que não seja a rotina em si.\n";
-    promptPart += "6.  **CONFLITOS**: Se as atividades fixas se sobrepõem, aponte o conflito claramente em vez de gerar uma rotina inválida. Por fim, independente de qualquer coisa coloque as atividades obrigatórias nos horários delas.\n\n";
-    promptPart += "== ROTINA GERADA: ==\n";
+    // Instruções finais para a IA
+    promptPart += "Regras para a rotina final:\n";
+    promptPart += "1. Inclua horários para refeições (café da manhã, almoço, jantar) e pausas curtas entre as atividades.\n";
+    promptPart += "2. A resposta deve ser APENAS a lista da rotina, com horários de início e fim para cada item (ex: '08:00 - 08:30: Café da manhã').\n";
+    promptPart += "3. Não inclua observações, introduções, conclusões ou qualquer texto em negrito. Seja direto e objetivo.";
 
     return promptPart;
   }
