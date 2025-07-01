@@ -53,11 +53,7 @@ ng build
 Os arquivos compilados serão gerados no diretório dist/.
 ## 🧪 Testes
 Testes Unitários:
-ng test
-
-
-Testes End-to-End (E2E):
-ng e2e
+npm test
 
 
 ## ⚠️ Nota: O Angular CLI não inclui um framework de E2E por padrão a partir de versões mais recentes. Você pode integrar ferramentas como Cypress ou Playwright para testes E2E.
@@ -87,13 +83,6 @@ Authorization: Bearer <seu-token-jwt>
 
 ## 📁 Upload de Arquivos
 O backend suporta o upload de diversos tipos de arquivos, incluindo PDFs e arquivos geoespaciais como KMZ, KML e arquivos SHP (geralmente enviados como um arquivo ZIP). A biblioteca Multer é utilizada para gerenciar o upload. Os arquivos são tipicamente salvos localmente no servidor e suas informações (como caminho e metadados) são relacionadas a entidades no banco de dados.
-## 🧪 Testes
-Testes Unitários:
-npm run test
-
-
-Testes End-to-End (E2E):
-npm run test:e2e
 
 
 ## 📚 Documentação da API (Swagger)
