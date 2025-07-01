@@ -24,7 +24,6 @@ cd <nome-do-repositorio>
 
 2. Rodar com o Docker
 Na raiz da aplicação e, com o Docker rodando, rode:
-- cd ..
 - docker-compose up --build
 
 O Dockerfile ja vai instalar todas as dependecias e rodar tanto o back quanto o front
