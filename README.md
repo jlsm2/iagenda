@@ -23,11 +23,7 @@ cd <nome-do-repositorio>
 
 
 2. Rodar com o Docker
-Navegue para a pasta do backend e rode o seguinte comando:
-- cd backend
-- npm run build
-
-Depois volte para a raiz da aplicação e, com o Docker rodando, rode:
+Na raiz da aplicação e, com o Docker rodando, rode:
 - cd ..
 - docker-compose up --build
 
@@ -53,7 +49,7 @@ ng build
 Os arquivos compilados serão gerados no diretório dist/.
 ## 🧪 Testes
 Testes Unitários:
-npm test
+- npm test
 
 
 ## ⚠️ Nota: O Angular CLI não inclui um framework de E2E por padrão a partir de versões mais recentes. Você pode integrar ferramentas como Cypress ou Playwright para testes E2E.
