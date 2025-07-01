@@ -23,8 +23,6 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
   align-items: $align;
 }
 
-@import '@fortawesome/fontawesome-free/css/all.min.css';
-
 // Estilos para o host do componente
 :host {
   display: flex;
