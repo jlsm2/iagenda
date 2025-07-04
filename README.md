@@ -47,8 +47,12 @@ ng build
 
 Os arquivos compilados serão gerados no diretório dist/.
 ## 🧪 Testes
-Testes Unitários:
-- npm test
+Para rodar os testes unitários automatizados, faça os seguintes comandos abaixo:
+- cd backend (para ir da raiz para o backend)
+- npm install (para instalar as dependências necessárias)
+- npm test (para rodar os testes)
+
+Em seguida aparecerá um texto informando se os testes foram bem-sucedidos e a cobertura deles.
 
 
 ## ⚠️ Nota: O Angular CLI não inclui um framework de E2E por padrão a partir de versões mais recentes. Você pode integrar ferramentas como Cypress ou Playwright para testes E2E.
