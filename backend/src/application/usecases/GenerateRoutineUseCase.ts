@@ -4,7 +4,7 @@ import { InteractionRepository } from '../../infrastructure/repositories/Interac
 interface FixedActivity { name: string; startTime: string; endTime: string; }
 interface FlexibleActivity { name: string; duration: number; }
 
-const MODEL_NAME = "gemini-1.5-flash-latest";
+const MODEL_NAME = "gemini-pro";
 
 export class GenerateRoutineUseCase {
   private genAI: GoogleGenerativeAI;
