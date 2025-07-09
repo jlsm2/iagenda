@@ -138,3 +138,26 @@
     }
   }
 }
+
+
+.generated-routine-display {
+  margin-top: 1.5rem;
+
+  .empty-state {
+    text-align: center;
+    color: #777;
+    padding: 2rem;
+    border: 2px dashed #e0e0e0;
+    border-radius: 12px;
+  }
+
+  .routine-text {
+    white-space: pre-wrap; // Mantém as quebras de linha da IA
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    line-height: 1.7;
+    background: #f4f6fc;
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+}
