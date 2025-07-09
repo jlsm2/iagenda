@@ -1,17 +1,19 @@
 <div class="page-container">
   <header class="page-header">
-    <span class="material-icons icon-button" routerLink="/test">arrow_back</span>
+    <span class="material-icons icon-button" routerLink="/planner">arrow_back</span>
     <h1 class="page-title">Olá, Usuário!</h1>
     <span class="material-icons icon-button">person_outline</span>
   </header>
 
   <main class="routine-content">
     <div class="routine-header">
-      <h2>Sua rotina de hoje: <br><span>6:00 da manhã - 22:00 da noite</span></h2>
+      <h2>Sua rotina de hoje: <br><span>Gerada pela iAgenda</span></h2>
       <span class="material-icons icon-button">filter_list</span>
     </div>
 
-    <div class="routine-list">
+    <!-- O *ngIf agora verifica se o array de atividades existe -->
+    <div *ngIf="atividades$ | async as atividades; else emptyState" class="routine-list">
+      <!-- O *ngFor itera sobre o array de atividades processadas -->
       <div
         *ngFor="let atividade of atividades"
         class="routine-item"
@@ -22,18 +24,26 @@
         </div>
 
         <div class="item-actions">
-            <span class="material-icons edit-icon">edit</span>
-            <button
-                class="status-button"
-                (click)="toggleStatus(atividade)"
-                [ngClass]="{ 'realizada': atividade.realizada }"
-                [style.borderColor]="atividade.cor"
-                [style.backgroundColor]="atividade.realizada ? atividade.cor : 'transparent'"
-            >
-                <span class="check-icon">✓</span>
-            </button>
+          <!-- O botão de checkmark agora funciona com os dados processados -->
+          <button
+              class="status-button"
+              (click)="toggleStatus(atividade)"
+              [ngClass]="{ 'realizada': atividade.realizada }"
+              [style.borderColor]="atividade.cor"
+              [style.backgroundColor]="atividade.realizada ? atividade.cor : 'transparent'"
+          >
+              <span class="check-icon">✓</span>
+          </button>
         </div>
       </div>
     </div>
+
+    <!-- Template para quando não há rotina gerada -->
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <p>Nenhuma rotina foi gerada ainda. Volte para o planejador para criar uma!</p>
+      </div>
+    </ng-template>
+
   </main>
 </div>

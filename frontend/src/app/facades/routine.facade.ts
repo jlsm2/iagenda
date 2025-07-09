@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router'; // <-- 1. IMPORTAR O ROUTER
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { tap, catchError, finalize } from 'rxjs/operators';
 import { ApiService, ApiResponse, UnifiedRoutinePayload } from '../services/api-service';
@@ -19,7 +20,11 @@ export class RoutineFacade {
   private _processingError$ = new BehaviorSubject<string | null>(null);
   readonly processingError$: Observable<string | null> = this._processingError$.asObservable();
 
-  constructor(private apiService: ApiService) {}
+  // 2. INJETAR O ROUTER NO CONSTRUTOR
+  constructor(
+    private apiService: ApiService,
+    private router: Router
+  ) {}
 
   generateUnifiedRoutine(fixed: FixedActivityPayload[], flexible: FlexibleActivityPayload[]): void {
     this._isProcessing$.next(true);
@@ -33,7 +38,10 @@ export class RoutineFacade {
 
     this.apiService.generateRoutine(payload).pipe(
       tap((apiResponse: ApiResponse) => {
+        // Guarda a resposta da IA no nosso estado
         this._generatedRoutine$.next(apiResponse.response);
+        // 3. APÓS O SUCESSO, NAVEGA PARA A PÁGINA /rotina
+        this.router.navigate(['/rotina']);
       }),
       catchError((error) => {
         const errorMsg = error.error?.error || 'Falha ao gerar a rotina.';
