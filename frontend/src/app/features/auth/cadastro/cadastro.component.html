@@ -7,6 +7,9 @@
   <div class="form-panel">
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
       <h2>Cadastre-se</h2>
+      <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
 
       <div class="input-group">
         <label for="fullName">Nome completo</label>

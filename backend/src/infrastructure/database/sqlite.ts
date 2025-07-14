@@ -15,6 +15,21 @@ export const database = knex(dbConfig);
 
 export async function initializeDatabase() {
   try {
+
+    const usersTableExists = await database.schema.hasTable('users');
+    if (!usersTableExists) {
+      console.log("Tabela 'users' não encontrada, criando...");
+      await database.schema.createTable('users', (table) => {
+        table.increments('id').primary();
+        table.string('email').notNullable().unique();
+        table.string('password').notNullable();
+        table.timestamp('created_at').defaultTo(database.fn.now());
+      });
+      console.log("Tabela 'users' criada com sucesso!");
+    } else {
+      console.log("Tabela 'users' já existe.");
+    }
+
     const tableExists = await database.schema.hasTable('interactions');
 
     if (!tableExists) {

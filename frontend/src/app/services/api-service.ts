@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-// O caminho correto é relativo à pasta 'src/app'
 import { environment } from '../../environments/environment';
 
 export interface ApiResponse {
@@ -19,9 +18,18 @@ export interface UnifiedRoutinePayload {
 export class ApiService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   generateRoutine(payload: UnifiedRoutinePayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/generate-routine`, payload);
+  }
+
+  // NOVOS MÉTODOS
+  register(user: { email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user);
+  }
+
+  login(user: { email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, user);
   }
 }
