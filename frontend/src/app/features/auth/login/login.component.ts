@@ -25,8 +25,16 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       this.apiService.login({ email: email!, password: password! }).subscribe({
-        next: () => {
+        next: (response) => {
           console.log('Login bem-sucedido!');
+
+          // ✅ Salva o ID do usuário no localStorage
+          if (response.userId || response.user_id) {
+            localStorage.setItem('userId', response.userId ?? response.user_id);
+          } else {
+            console.warn('⚠️ Login retornou sucesso mas sem userId!');
+          }
+
           this.router.navigate(['/planner']);
         },
         error: (err: any) => {

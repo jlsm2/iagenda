@@ -18,16 +18,20 @@ export class AuthController {
 
   async login(req: Request, res: Response) {
     const { email, password } = req.body;
-
+  
     const user = await database('users').where({ email }).first();
     if (!user) {
       return res.status(401).json({ message: 'Usuário não encontrado.' });
     }
-
+  
     if (user.password !== password) {
       return res.status(401).json({ message: 'Senha incorreta.' });
     }
-
-    res.json({ message: 'Login realizado com sucesso!' });
-  }
+  
+    // Agora também retornamos o ID do usuário
+    res.json({
+      message: 'Login realizado com sucesso!',
+      userId: user.id
+    });
+  }  
 }

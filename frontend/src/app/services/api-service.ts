@@ -8,6 +8,7 @@ export interface ApiResponse {
 }
 
 export interface UnifiedRoutinePayload {
+  userId: number;
   fixedActivities: { name: string; startTime: string; endTime: string; }[];
   flexibleActivities: { name: string; duration: number; }[];
 }
@@ -24,12 +25,19 @@ export class ApiService {
     return this.http.post<ApiResponse>(`${this.apiUrl}/generate-routine`, payload);
   }
 
-  // NOVOS MÉTODOS
   register(user: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
   login(user: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, user);
+  }
+
+  getUserRoutines(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/routines?user_id=${userId}`);
+  }
+
+  getRoutineById(routineId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/routines/${routineId}`);
   }
 }

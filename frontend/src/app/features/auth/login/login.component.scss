@@ -116,8 +116,8 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
     .error-message {
       font-size: 0.8rem;
       color: $error-color;
-      margin-top: 4px;
-      text-align: left;
+      margin-top: 10px;
+      text-align: center;
     }
   }
 
@@ -521,6 +521,18 @@ $font-family-primary: 'Inter', 'Arial', sans-serif;
                 font-size: 13px;
             }
         }
+        .error-banner {
+          margin-top: 20px; // Espaçamento acima do banner
+          text-align: center; // Centraliza o texto
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px; // Espaçamento entre o ícone e o texto
+        }
+        
+        .error-banner i {
+          font-size: 16px;
+        } 
         .submit-btn {
             padding: 12px;
             font-size: 15px;

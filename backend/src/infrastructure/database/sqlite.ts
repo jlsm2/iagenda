@@ -1,7 +1,7 @@
 import knex, { Knex } from 'knex';
 import path from 'path';
 
-const dbPath = path.resolve(process.cwd(), 'history.sqlite');
+const dbPath = path.resolve(__dirname, '../../../data/history.sqlite');
 
 const dbConfig: Knex.Config = {
   client: 'sqlite3',
@@ -15,7 +15,6 @@ export const database = knex(dbConfig);
 
 export async function initializeDatabase() {
   try {
-
     const usersTableExists = await database.schema.hasTable('users');
     if (!usersTableExists) {
       console.log("Tabela 'users' não encontrada, criando...");
@@ -30,9 +29,8 @@ export async function initializeDatabase() {
       console.log("Tabela 'users' já existe.");
     }
 
-    const tableExists = await database.schema.hasTable('interactions');
-
-    if (!tableExists) {
+    const interactionsTableExists = await database.schema.hasTable('interactions');
+    if (!interactionsTableExists) {
       console.log("Tabela 'interactions' não encontrada, criando...");
       await database.schema.createTable('interactions', (table) => {
         table.increments('id').primary();
@@ -44,17 +42,24 @@ export async function initializeDatabase() {
         table.boolean('success').notNullable();
       });
       console.log("Tabela 'interactions' criada com sucesso!");
+    }
+
+    const routinesTableExists = await database.schema.hasTable('routines');
+    if (!routinesTableExists) {
+      console.log("Tabela 'routines' não encontrada, criando...");
+      await database.schema.createTable('routines', (table) => {
+        table.increments('id').primary();
+        table.integer('user_id').notNullable();
+        table.string('title').notNullable();
+        table.text('content').notNullable();
+        table.text('checked_activities').nullable();
+        table.timestamp('created_at').defaultTo(database.fn.now());
+
+        table.foreign('user_id').references('users.id').onDelete('CASCADE');
+      });
+      console.log("Tabela 'routines' criada com sucesso!");
     } else {
-      const hasInputSummary = await database.schema.hasColumn('interactions', 'input_summary');
-      if (!hasInputSummary) {
-        console.log("Adicionando coluna 'input_summary' à tabela 'interactions'...");
-        await database.schema.alterTable('interactions', (table) => {
-          table.text('input_summary');
-        });
-        console.log("Coluna 'input_summary' adicionada.");
-      } else {
-        console.log("Coluna 'input_summary' já existe.");
-      }
+      console.log("Tabela 'routines' já existe.");
     }
   } catch (error) {
     console.error("Erro ao inicializar o banco de dados:", error);
