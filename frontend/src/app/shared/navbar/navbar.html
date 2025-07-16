@@ -9,19 +9,21 @@
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="navbar-container">
-        <a href="#" class="navbar-logo">
+    <nav class="navbar">
+        <div class="navbar-container">
+          <a routerLink="/login" class="navbar-logo">
             <i class="fa-regular fa-calendar-days logo-icon"></i>
             <span>iAgenda</span>
-        </a>
-        <!--<button class="nav-logout-btn">
-            <i class="fas fa-sign-out-alt" href="#"></i> Sair
-        </button>-->
-        <div class="mobile-menu-icon">
+          </a>
+      
+          <ul class="nav-menu">
+            <li class="nav-item"><a routerLink="/planner" routerLinkActive="active-link" class="nav-link">Gerar Rotina</a></li>
+            <li class="nav-item"><a routerLink="/historico" routerLinkActive="active-link" class="nav-link">Minhas Rotinas</a></li>
+            <li class="nav-item"><button class="nav-link logout-link" (click)="logout()">Sair</button></li>
+          </ul>
+      
+          <div class="mobile-menu-icon" (click)="toggleMobileMenu()">
             <i class="fas fa-bars"></i>
+          </div>
         </div>
-    </div>
-</nav>
-</body>
-</html>
+      </nav>
