@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators'; // A importação do 'map' já estava aqui, o que é ótimo.
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { RoutineFacade, FixedActivityPayload, FlexibleActivityPayload } from '../facades/routine.facade'; // Importa o novo facade unificado
+import { RoutineFacade, FixedActivityPayload, FlexibleActivityPayload } from '../facades/routine.facade';
 
 // Interfaces para o estado local do componente (com 'id' para rastreamento)
 interface FixedActivity extends FixedActivityPayload {
@@ -29,12 +30,19 @@ export class RoutinePlannerComponent {
   private nextFlexibleId = 0;
 
   // Observables para conectar com o estado do facade
-  generatedRoutine$: Observable<string | null>;
+  // ALTERADO: A propriedade foi renomeada para maior clareza.
+  generatedRoutineText$: Observable<string | null>;
   isProcessing$: Observable<boolean>;
   processingError$: Observable<string | null>;
 
   constructor(private routineFacade: RoutineFacade) {
-    this.generatedRoutine$ = this.routineFacade.generatedRoutine$;
+    // ALTERADO: Em vez de uma atribuição direta, usamos o pipe com o operador 'map'
+    // para extrair apenas a propriedade 'content' (o texto) do objeto Routine.
+    this.generatedRoutineText$ = this.routineFacade.generatedRoutine$.pipe(
+      map(routine => routine ? routine.content : null)
+    );
+    
+    // As outras propriedades continuam com a atribuição direta, pois seus tipos não mudaram.
     this.isProcessing$ = this.routineFacade.isProcessing$;
     this.processingError$ = this.routineFacade.processingError$;
 

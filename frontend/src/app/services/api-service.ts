@@ -3,8 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-export interface ApiResponse {
-  response: string;
+// NOVO: Interface para a Rotina, espelhando o backend
+export interface Routine {
+  id: number;
+  user_id: number;
+  title: string;
+  content: string;
+  checked_activities: string; // JSON string
+  created_at: Date;
 }
 
 export interface UnifiedRoutinePayload {
@@ -21,10 +27,18 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  generateRoutine(payload: UnifiedRoutinePayload): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/generate-routine`, payload);
+  // ALTERADO: A geração de rotina agora retorna o objeto Routine completo
+  generateRoutine(payload: UnifiedRoutinePayload): Observable<Routine> {
+    return this.http.post<Routine>(`${this.apiUrl}/generate-routine`, payload);
   }
 
+  // NOVO: Método para enviar a atualização do status das atividades
+  updateRoutineStatus(id: number, checkedActivities: string): Observable<Routine> {
+    const payload = { checked_activities: checkedActivities };
+    return this.http.patch<Routine>(`${this.apiUrl}/routines/${id}`, payload);
+  }
+
+  // --- MÉTODOS EXISTENTES (sem alterações) ---
   register(user: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
@@ -37,7 +51,7 @@ export class ApiService {
     return this.http.get<any[]>(`${this.apiUrl}/routines?user_id=${userId}`);
   }
 
-  getRoutineById(routineId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/routines/${routineId}`);
+  getRoutineById(routineId: number): Observable<Routine> { // ALTERADO: Tipo de retorno
+    return this.http.get<Routine>(`${this.apiUrl}/routines/${routineId}`);
   }
 }
