@@ -30,7 +30,10 @@
       </p>
 
       <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">Entrar</button>
-
+      <div *ngIf="errorMessage" class="error-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ errorMessage }}
+      </div>
       <p class="signup-link">
         Não tem uma conta? <a routerLink="/cadastro">Cadastre-se</a>
       </p>

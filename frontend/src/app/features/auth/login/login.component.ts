@@ -2,15 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { ApiService } from '../../../services/api-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterLink
-  ],
+  imports: [ CommonModule, ReactiveFormsModule, RouterLink ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -20,28 +17,38 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required])
   });
 
-  constructor(private router: Router) {}
+  errorMessage = '';
+
+  constructor(private router: Router, private apiService: ApiService) {}
 
   onSubmit() {
-    // A validação do formulário pode ser mais complexa aqui no futuro
-    // (ex: chamar um serviço de autenticação)
     if (this.loginForm.valid) {
-      console.log('Login bem-sucedido! Navegando para o planner...');
-      
-      // --- CORREÇÃO AQUI ---
-      // Navega para a rota '/planner' que definimos no app.routes.ts
-      this.router.navigate(['/planner']);
+      const { email, password } = this.loginForm.value;
+      this.apiService.login({ email: email!, password: password! }).subscribe({
+        next: (response) => {
+          console.log('Login bem-sucedido!');
 
+          // ✅ Salva o ID do usuário no localStorage
+          if (response.userId || response.user_id) {
+            localStorage.setItem('userId', response.userId ?? response.user_id);
+          } else {
+            console.warn('⚠️ Login retornou sucesso mas sem userId!');
+          }
+
+          this.router.navigate(['/planner']);
+        },
+        error: (err: any) => {
+          console.error('Erro ao fazer login:', err);
+          this.errorMessage = err.error?.error || 'Falha ao fazer login.';
+        }
+      });
     } else {
-      console.log('Formulário de login inválido.');
       this.markAllAsTouched();
     }
   }
 
   private markAllAsTouched() {
-    Object.values(this.loginForm.controls).forEach(control => {
-      control.markAsTouched();
-    });
+    Object.values(this.loginForm.controls).forEach(control => control.markAsTouched());
   }
 
   get email() { return this.loginForm.get('email'); }

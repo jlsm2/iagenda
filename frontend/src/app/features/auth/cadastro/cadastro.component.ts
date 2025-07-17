@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { ApiService } from '../../../services/api-service';
 
-// Função de validação customizada para checar se as senhas coincidem
 export function passwordMismatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password')?.value;
   const confirmPassword = control.get('confirmPassword')?.value;
@@ -13,11 +13,7 @@ export function passwordMismatchValidator(control: AbstractControl): ValidationE
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterLink // Importa o RouterLink para o link "Faça seu Login"
-  ],
+  imports: [ CommonModule, ReactiveFormsModule, RouterLink ],
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.scss']
 })
@@ -29,31 +25,37 @@ export class CadastroComponent {
     phone: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required])
-  }, { validators: passwordMismatchValidator }); // Adiciona o validador no grupo do formulário
+  }, { validators: passwordMismatchValidator });
 
-  constructor(private router: Router) {}
+  errorMessage = '';
+  successMessage = '';
+
+  constructor(private router: Router, private apiService: ApiService) {}
 
   onSubmit() {
     if (this.cadastroForm.valid) {
-      console.log('Dados do Cadastro:', this.cadastroForm.value);
-      // Lógica para enviar os dados para o backend
-      // this.authService.register(this.cadastroForm.value).subscribe(...)
-      
-      // Redireciona para a tela de login ou dashboard após o cadastro
-      this.router.navigate(['/login']);
+      const { email, password } = this.cadastroForm.value;
+      this.apiService.register({ email: email!, password: password! }).subscribe({
+        next: () => {
+          this.successMessage = 'Cadastro realizado com sucesso! Redirecionando para login...';
+          this.errorMessage = '';
+          setTimeout(() => this.router.navigate(['/login']), 2000);
+        },
+        error: (err: any) => {
+          console.error('Erro ao cadastrar:', err);
+          this.errorMessage = err.error?.error || 'Falha ao cadastrar.';
+          this.successMessage = '';
+        }
+      });
     } else {
-      console.log('Formulário de cadastro inválido.');
       this.markAllAsTouched();
     }
   }
 
   private markAllAsTouched() {
-    Object.values(this.cadastroForm.controls).forEach(control => {
-      control.markAsTouched();
-    });
+    Object.values(this.cadastroForm.controls).forEach(control => control.markAsTouched());
   }
 
-  // Getters para fácil acesso no template
   get fullName() { return this.cadastroForm.get('fullName'); }
   get nickname() { return this.cadastroForm.get('nickname'); }
   get email() { return this.cadastroForm.get('email'); }

@@ -1,10 +1,10 @@
 // Variáveis de Cor
 $primary-dark-blue: #0d2c5a;
-$primary-button-blue: #4a7dff; // Cor para destaques ou botões secundários na navbar
+$primary-button-blue: #4a7dff;
 $secondary-button-blue-hover: #3a6add;
 $text-color-light: #ffffff;
-$navbar-link-hover-bg: darken($primary-dark-blue, 5%); // Um pouco mais escuro que o fundo da navbar
-$logout-btn-bg: $primary-button-blue; // Cor do botão de login
+$navbar-link-hover-bg: darken($primary-dark-blue, 5%);
+$logout-btn-bg: $primary-button-blue;
 $logout-btn-hover-bg: $secondary-button-blue-hover;
 
 // Variáveis de Fonte
@@ -33,9 +33,10 @@ body {
   .navbar-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; // garante centralização vertical
     width: 100%;
     max-width: 1200px;
+    height: 100%; // garante alinhamento com altura da navbar
     margin: 0 auto;
   }
 
@@ -44,11 +45,12 @@ body {
     text-decoration: none;
     font-size: 1.8rem;
     font-weight: 600;
+    display: flex;
+    align-items: center;
     transition: opacity 0.3s ease;
 
     .logo-icon {
       margin-right: 10px;
-      margin-top: 1.5rem;
       font-size: 1.6rem;
     }
 
@@ -63,49 +65,56 @@ body {
     align-items: center;
     margin: 0;
     padding: 0;
+    height: 100%;
 
     .nav-item {
       margin-left: 25px;
+      height: 100%;
+      display: flex;
+      align-items: center;
     }
 
     .nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       color: $text-color-light;
       text-decoration: none;
-      padding: 10px 15px;
+      padding: 8px 14px;
       border-radius: 6px;
       font-size: 1rem;
       font-weight: 500;
+      background: transparent;
+      border: none;
+      cursor: pointer;
       transition: background-color 0.3s ease, color 0.3s ease;
-
+    
       &:hover,
       &.active-link {
         background-color: $navbar-link-hover-bg;
         color: lighten($text-color-light, 10%);
       }
+    
+      &.logout-link {
+        background-color: $logout-btn-bg;
+        padding: 8px 16px;
+        line-height: 1;
+        height: auto; // <<< corrige o tamanho exagerado
+        transition: background-color 0.3s ease;
+    
+        &:hover {
+          background-color: $logout-btn-hover-bg;
+        }
+      }
     }
-  }
-
-  .nav-logout-btn {
-    background-color: $logout-btn-bg;
-    color: $text-color-light;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    gap: 8px;
-
-    &:hover {
-      background-color: $logout-btn-hover-bg;
-    }
+    
   }
 
   .mobile-menu-icon {
     display: none;
     font-size: 1.8rem;
     cursor: pointer;
+    color: $text-color-light;
   }
 }
 
@@ -113,7 +122,6 @@ body {
   padding: 30px;
   text-align: center;
 }
-
 
 // Responsividade para a Navbar
 @media (max-width: 900px) {
@@ -145,19 +153,16 @@ body {
         display: block;
         padding: 15px 0;
         border-radius: 0;
+
         &:hover,
         &.active-link {
           background-color: $navbar-link-hover-bg;
         }
       }
-    }
 
-    .nav-logout-btn {
-      display: none;
-      &.active {
-        display: flex;
+      .logout-link {
+        margin: 10px auto;
         width: calc(100% - 40px);
-        margin: 10px 20px;
         justify-content: center;
       }
     }

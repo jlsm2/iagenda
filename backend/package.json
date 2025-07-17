@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/main.js",
+    "start": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/main.ts",
     "dev": "nodemon src/main.ts",
     "test": "npx jest",
     "test:coverage": "npx jest --coverage"
@@ -15,21 +15,27 @@
   "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
-    "nodemon": "^3.1.10",
-    "sqlite3": "^5.1.7",
-    "typescript": "^5.8.3"
+    "path": "^0.12.7",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.18",
-    "@types/express": "^5.0.2",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
-    "@types/node": "^22.15.29",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^22.16.4",
     "jest": "^30.0.3",
+    "nodemon": "^3.1.10",
     "ts-jest": "^29.4.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
   }
 }
