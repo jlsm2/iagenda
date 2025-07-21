@@ -7,7 +7,7 @@ exports.database = void 0;
 exports.initializeDatabase = initializeDatabase;
 const knex_1 = __importDefault(require("knex"));
 const path_1 = __importDefault(require("path"));
-const dbPath = path_1.default.resolve(process.cwd(), 'history.sqlite');
+const dbPath = path_1.default.resolve(__dirname, '../../../data/history.sqlite');
 const dbConfig = {
     client: 'sqlite3',
     connection: {
@@ -32,8 +32,8 @@ async function initializeDatabase() {
         else {
             console.log("Tabela 'users' já existe.");
         }
-        const tableExists = await exports.database.schema.hasTable('interactions');
-        if (!tableExists) {
+        const interactionsTableExists = await exports.database.schema.hasTable('interactions');
+        if (!interactionsTableExists) {
             console.log("Tabela 'interactions' não encontrada, criando...");
             await exports.database.schema.createTable('interactions', (table) => {
                 table.increments('id').primary();
@@ -46,18 +46,22 @@ async function initializeDatabase() {
             });
             console.log("Tabela 'interactions' criada com sucesso!");
         }
+        const routinesTableExists = await exports.database.schema.hasTable('routines');
+        if (!routinesTableExists) {
+            console.log("Tabela 'routines' não encontrada, criando...");
+            await exports.database.schema.createTable('routines', (table) => {
+                table.increments('id').primary();
+                table.integer('user_id').notNullable();
+                table.string('title').notNullable();
+                table.text('content').notNullable();
+                table.text('checked_activities').nullable();
+                table.timestamp('created_at').defaultTo(exports.database.fn.now());
+                table.foreign('user_id').references('users.id').onDelete('CASCADE');
+            });
+            console.log("Tabela 'routines' criada com sucesso!");
+        }
         else {
-            const hasInputSummary = await exports.database.schema.hasColumn('interactions', 'input_summary');
-            if (!hasInputSummary) {
-                console.log("Adicionando coluna 'input_summary' à tabela 'interactions'...");
-                await exports.database.schema.alterTable('interactions', (table) => {
-                    table.text('input_summary');
-                });
-                console.log("Coluna 'input_summary' adicionada.");
-            }
-            else {
-                console.log("Coluna 'input_summary' já existe.");
-            }
+            console.log("Tabela 'routines' já existe.");
         }
     }
     catch (error) {

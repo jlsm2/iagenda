@@ -81,6 +81,16 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
     font-weight: 600;
   }
 
+  .error-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: $error-color;
+    margin-top: 15px;
+    font-size: 0.9rem;
+  }
+
   .input-group {
     margin-bottom: 20px;
     position: relative;
@@ -116,7 +126,7 @@ $font-family-primary: 'Inter', 'Arial', sans-serif; // Use a fonte do seu projet
     .error-message {
       font-size: 0.8rem;
       color: $error-color;
-      margin-top: 10px;
+      width: 100%;
       text-align: center;
     }
   }
