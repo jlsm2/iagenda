@@ -1,10 +1,18 @@
-import { GoogleGenerativeAI, GenerationConfig, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
+import {
+  GoogleGenerativeAI,
+  GenerationConfig,
+  HarmCategory,
+  HarmBlockThreshold,
+} from '@google/generative-ai';
 import { InteractionRepository } from '../../infrastructure/repositories/InteractionRepository';
 
-interface FixedActivity { name: string; startTime: string; endTime: string; }
-interface FlexibleActivity { name: string; duration: number; }
+import {
+  ActivitiesPrompt,
+  FixedActivity,
+  FlexibleActivity,
+} from '../../prompt';
 
-const MODEL_NAME = "gemini-1.5-flash-latest";
+const MODEL_NAME = 'gemini-1.5-flash-latest';
 
 export class GenerateRoutineUseCase {
   private genAI: GoogleGenerativeAI;
@@ -13,75 +21,68 @@ export class GenerateRoutineUseCase {
   constructor() {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("GenerateRoutineUseCase: Chave da API do Gemini não encontrada.");
+      console.error(
+        'GenerateRoutineUseCase: Chave da API do Gemini não encontrada.'
+      );
     }
-    this.genAI = new GoogleGenerativeAI(apiKey || "CHAVE_API_AUSENTE");
+    this.genAI = new GoogleGenerativeAI(apiKey || 'CHAVE_API_AUSENTE');
     this.interactionRepository = new InteractionRepository();
   }
 
-  private formatActivitiesForPrompt(fixed: FixedActivity[], flexible: FlexibleActivity[]): string {
-    let promptPart = "Você é um assistente especialista em criar rotinas diárias otimizadas. Sua tarefa é criar uma agenda detalhada e realista baseada nas informações a seguir.\n\n";
-
-    promptPart += "== ATIVIDADES FIXAS (OBRIGATÓRIAS) ==\n";
-    promptPart += "Estes são compromissos com horários definidos que NÃO PODEM ser alterados ou movidos.\n";
-    if (fixed && fixed.length > 0) {
-      fixed.forEach(activity => {
-        promptPart += `- ${activity.name}: das ${activity.startTime} às ${activity.endTime}.\n`;
-      });
-    } else {
-      promptPart += "- Nenhuma atividade fixa informada.\n";
-    }
-    promptPart += "\n";
-
-    promptPart += "== ATIVIDADES FLEXÍVEIS (PARA ENCAIXAR) ==\n";
-    promptPart += "Estas tarefas devem ser encaixadas nos horários livres disponíveis ao longo do dia. Lembre de se atentar à duração informada, cumpra ela rigorosamente.\n";
-    if (flexible && flexible.length > 0) {
-      flexible.forEach(activity => {
-        promptPart += `- ${activity.name}: com duração exata de ${activity.duration} minutos.\n`;
-      });
-    } else {
-      promptPart += "- Nenhuma atividade flexível informada.\n";
-    }
-    promptPart += "\n";
-
-    // Instruções finais para a IA
-    promptPart += "Regras para a rotina final:\n";
-    promptPart += "1. Inclua horários para refeições (café da manhã, almoço, jantar) e pausas curtas entre as atividades.\n";
-    promptPart += "2. A resposta deve ser APENAS a lista da rotina, com horários de início e fim para cada item (ex: '08:00 - 08:30: Café da manhã').\n";
-    promptPart += "3. Não inclua observações, introduções, conclusões ou qualquer texto em negrito. Seja direto e objetivo.";
-
-    return promptPart;
+  private formatActivitiesForPrompt(
+    fixed: FixedActivity[],
+    flexible: FlexibleActivity[]
+  ): string {
+    return new ActivitiesPrompt()
+      .addFixedActivity(fixed)
+      .addFlexibleActivity(flexible)
+      .build();
   }
 
-  private summarizeUserActivities(fixed: FixedActivity[], flexible: FlexibleActivity[]): string {
-    let summary = "FIXAS:\n";
+  private summarizeUserActivities(
+    fixed: FixedActivity[],
+    flexible: FlexibleActivity[]
+  ): string {
+    let summary = 'FIXAS:\n';
     if (fixed && fixed.length > 0) {
-      fixed.forEach(act => {
+      fixed.forEach((act) => {
         summary += `- ${act.name}: ${act.startTime} às ${act.endTime}\n`;
       });
     } else {
-      summary += "- Nenhuma\n";
+      summary += '- Nenhuma\n';
     }
 
-    summary += "FLEXÍVEIS:\n";
+    summary += 'FLEXÍVEIS:\n';
     if (flexible && flexible.length > 0) {
-      flexible.forEach(act => {
+      flexible.forEach((act) => {
         summary += `- ${act.name}: ${act.duration} min\n`;
       });
     } else {
-      summary += "- Nenhuma\n";
+      summary += '- Nenhuma\n';
     }
 
     return summary;
   }
 
-  async execute(fixedActivities: FixedActivity[], flexibleActivities: FlexibleActivity[]): Promise<string> {
-    if ((!fixedActivities || fixedActivities.length === 0) && (!flexibleActivities || flexibleActivities.length === 0)) {
-      return "Por favor, forneça ao menos uma atividade (fixa ou flexível) para gerar a rotina.";
+  async execute(
+    fixedActivities: FixedActivity[],
+    flexibleActivities: FlexibleActivity[]
+  ): Promise<string> {
+    if (
+      (!fixedActivities || fixedActivities.length === 0) &&
+      (!flexibleActivities || flexibleActivities.length === 0)
+    ) {
+      return 'Por favor, forneça ao menos uma atividade (fixa ou flexível) para gerar a rotina.';
     }
 
-    const prompt = this.formatActivitiesForPrompt(fixedActivities, flexibleActivities);
-    const inputSummary = this.summarizeUserActivities(fixedActivities, flexibleActivities);
+    const prompt = this.formatActivitiesForPrompt(
+      fixedActivities,
+      flexibleActivities
+    );
+    const inputSummary = this.summarizeUserActivities(
+      fixedActivities,
+      flexibleActivities
+    );
 
     const generationConfig: GenerationConfig = {
       temperature: 0.3,
@@ -94,10 +95,22 @@ export class GenerateRoutineUseCase {
       const model = this.genAI.getGenerativeModel({
         model: MODEL_NAME,
         safetySettings: [
-          { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-          { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-          { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-          { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+          {
+            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
         ],
         generationConfig,
       });
@@ -114,9 +127,9 @@ export class GenerateRoutineUseCase {
       });
 
       return text;
-
     } catch (error) {
-      const errorString = error instanceof Error ? error.message : JSON.stringify(error);
+      const errorString =
+        error instanceof Error ? error.message : JSON.stringify(error);
 
       await this.interactionRepository.save({
         prompt,
@@ -125,8 +138,8 @@ export class GenerateRoutineUseCase {
         input_summary: inputSummary,
       });
 
-      console.error("Erro ao chamar a API do Gemini:", error);
-      return "Desculpe, ocorreu um erro ao tentar gerar sua rotina com a API.";
+      console.error('Erro ao chamar a API do Gemini:', error);
+      return 'Desculpe, ocorreu um erro ao tentar gerar sua rotina com a API.';
     }
   }
 }
