@@ -1,206 +1,241 @@
-.planner-navbar {
-    background-color: #2c3e50; /* O azul escuro do seu header de login */
+// Variáveis para consistência de cores
+$primary-color: #007bff;
+$text-color-dark: #333;
+$text-color-light: #666;
+$background-color-card: #ffffff;
+$border-color: #e0e0e0;
+
+// Estilo do container principal da página
+.planner-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+// Container que agrupa as seções lado a lado
+.main-sections-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start; // Alinha os cards pelo topo
+
+  @media (max-width: 992px) {
+    flex-direction: column; // Empilha em telas menores
+  }
+}
+
+// Estilo de cada "card" (seção)
+.card-section {
+  background-color: $background-color-card;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  margin-bottom: 2rem;
+  flex: 1; // Permite que os cards cresçam igualmente
+  width: 100%; // Garante que ocupe o espaço em modo de coluna
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $text-color-dark;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: $text-color-light;
+    margin-bottom: 2rem;
+  }
+}
+
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// Estilo de cada linha de atividade
+.activity-item {
+  display: grid;
+  align-items: flex-end; // Alinha os itens na base (rótulo/input)
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid $border-color;
+
+  // Layout para atividades fixas
+  grid-template-columns: 2fr 1fr 1fr auto;
+
+  // Layout para atividades flexíveis
+  &.flexible-item {
+    grid-template-columns: 2fr 1fr auto;
+  }
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr; // Uma coluna em telas menores
+    &.flexible-item {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 0.85rem;
+    margin-bottom: 0.35rem;
+    color: $text-color-light;
+    font-weight: 500;
+  }
+
+  .form-control {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    }
+  }
+}
+
+// Botão para remover atividade (X) - CLASSE UNIFICADA
+.remove-btn {
+  background-color: transparent;
+  color: #d9534f;
+  border: none;
+  border-radius: 50%;
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 0.4rem; // Alinhamento vertical com os inputs
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #a94442;
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+// Toolbar de ações dentro de cada card
+.section-toolbar {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+// Estilos gerais de botão
+.btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+
+  &.btn-primary {
+    background-color: $primary-color;
     color: white;
-    padding: 0.75rem 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: flex;
+    &:hover { background-color: darken($primary-color, 10%); }
+  }
+
+  &.btn-secondary {
+    background-color: #e9ecef;
+    color: $text-color-dark;
+    border-color: #ced4da; 
+    display: inline-flex;
     align-items: center;
-  
-    .navbar-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      color: white;
-      cursor: pointer;
-  
-      .navbar-logo {
-        height: 28px; // Ajuste o tamanho da sua logo conforme necessário
-        width: auto;
-      }
-  
-      h1 {
-        margin: 0;
-        font-size: 1.5rem;
-        font-weight: 600;
-      }
+    gap: 0.5rem; 
+
+    &:hover { 
+      background-color: #ced4da;
+    }
+
+    i {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 1.3em;
+      line-height: 0;
     }
   }
 
-.planner-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1rem; // Adiciona padding para telas menores
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
-  
-  // Estilo para cada "card" de seção
-  .card-section {
-    background-color: #fdfdfd;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-    margin-bottom: 2rem; // Espaçamento entre os cards
-  
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-    }
-  
-    .subtitle {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 2rem;
-    }
+}
+
+// Botão principal unificado
+.main-action-toolbar {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+
+  .generate-btn {
+    padding: 0.8rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
   }
-  
-  .activities-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .activity-item {
-    display: grid;
-    // Usamos grid para alinhar os campos
-    grid-template-columns: 2fr 1fr 1fr auto;
-    align-items: center;
-    gap: 1rem;
-  
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr; // Em telas pequenas, um item por linha
-    }
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  
-    label {
-      font-weight: 500;
-      margin-bottom: 0.25rem;
-      font-size: 0.9rem;
-      color: #333;
-    }
-  
-    input.form-control {
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 0.95rem;
-    }
-  }
-  
-  .remove-btn {
-    background-color: #ffdddd;
-    color: #c0392b;
-    border: none;
-    border-radius: 18px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0.25rem 0.75rem;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    justify-self: end; // Alinha o botão à direita na grid
-    margin-top: 1.6rem; // Alinha com os inputs que têm label
-  
-    &:hover {
-      background-color: #f8cfcf;
-      color: #a0271c;
-    }
-  
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  
-    @media (max-width: 768px) {
-      justify-self: end;
-      margin-top: 0.5rem;
-    }
-  }
-  
-  // Barra de ações DENTRO de cada card
-  .section-toolbar {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  
-  .btn {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.2s;
-  
-    &.btn-primary {
-      background-color: #007bff;
-      color: white;
-    }
-    &.btn-secondary {
-      background-color: #e0e0e0;
-      color: #333;
-    }
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-  }
-  
-  .spinner.small-spinner {
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #007bff;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    animation: spin 1s linear infinite;
-    display: inline-block;
-    margin-right: 0.5rem;
-  }
-  
-  // Botão principal UNIFICADO
-  .main-action-toolbar {
-    display: flex;
-    justify-content: center; // Centraliza o botão
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-  
-    .generate-btn {
-      padding: 0.8rem 2.5rem; // Botão maior e mais destacado
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
-  }
-  
-  // Área de resultados
-  .results-area {
-    // Estilos para a área de resultados, se necessário
-  }
-  
+}
+
+// Animação de Spinner
+.spinner.small-spinner {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  margin-top: -2px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Área de resultados
+.results-area {
   .status-message {
-    margin-top: 1.5rem;
-    font-size: 0.95rem;
     text-align: center;
-    &.loading-message { color: #333; }
+    padding: 1rem;
+    font-size: 1rem;
     &.error-message { color: #c00; }
   }
-  
+
   .generated-routine-display {
-    margin-top: 2rem;
-    background-color: #f5f5f5;
-    padding: 1rem;
+    background-color: #f5f7fa;
+    padding: 1.5rem 2rem;
     border-radius: 8px;
-  
-    h3 { margin-bottom: 0.5rem; }
+    border: 1px solid #e3e8ef;
+    margin-top: 1rem;
+
+    h3 { margin-bottom: 1rem; }
     pre.routine-text {
       font-size: 0.95rem;
       white-space: pre-wrap;
       word-break: break-word;
+      line-height: 1.6;
+      font-family: 'Courier New', Courier, monospace;
+      color: #444;
     }
   }
-  
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
+}
