@@ -1,5 +1,5 @@
 TN:
-SF:src/application/usecases/GenerateRoutineUseCase.ts
+SF:src\application\usecases\GenerateRoutineUseCase.ts
 FN:13,(anonymous_0)
 FN:22,(anonymous_1)
 FN:28,(anonymous_2)
@@ -108,7 +108,7 @@ BRF:28
 BRH:24
 end_of_record
 TN:
-SF:src/application/usecases/ProcessMessageUseCase.ts
+SF:src\application\usecases\ProcessMessageUseCase.ts
 FN:8,(anonymous_0)
 FN:16,(anonymous_1)
 FNF:2
@@ -137,7 +137,7 @@ BRF:4
 BRH:3
 end_of_record
 TN:
-SF:src/infrastructure/http/controllers/TestController.ts
+SF:src\infrastructure\http\controllers\TestController.ts
 FN:8,(anonymous_0)
 FN:13,(anonymous_1)
 FN:20,(anonymous_2)
@@ -172,7 +172,7 @@ BRF:8
 BRH:6
 end_of_record
 TN:
-SF:src/infrastructure/repositories/InteractionRepository.ts
+SF:src\infrastructure\repositories\InteractionRepository.ts
 FN:12,(anonymous_0)
 FNF:1
 FNH:0

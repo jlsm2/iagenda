@@ -22,7 +22,11 @@ class AuthController {
         if (user.password !== password) {
             return res.status(401).json({ message: 'Senha incorreta.' });
         }
-        res.json({ message: 'Login realizado com sucesso!' });
+        // Agora também retornamos o ID do usuário
+        res.json({
+            message: 'Login realizado com sucesso!',
+            userId: user.id
+        });
     }
 }
 exports.AuthController = AuthController;

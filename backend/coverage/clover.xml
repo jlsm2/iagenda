@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1751586451181" clover="3.2.0">
-  <project timestamp="1751586451181" name="All files">
+<coverage generated="1751845256380" clover="3.2.0">
+  <project timestamp="1751845256381" name="All files">
     <metrics statements="86" coveredstatements="80" conditionals="40" coveredconditionals="33" methods="14" coveredmethods="13" elements="140" coveredelements="126" complexity="0" loc="86" ncloc="86" packages="3" files="4" classes="4"/>
     <package name="application.usecases">
       <metrics statements="68" coveredstatements="66" conditionals="32" coveredconditionals="27" methods="10" coveredmethods="10"/>
-      <file name="GenerateRoutineUseCase.ts" path="/Users/thomazaraujo/Documents/CIn-UFPE/DS/iagenda/backend/src/application/usecases/GenerateRoutineUseCase.ts">
+      <file name="GenerateRoutineUseCase.ts" path="C:\Users\João Marrocos\Desktop\iagenda\backend\src\application\usecases\GenerateRoutineUseCase.ts">
         <metrics statements="56" coveredstatements="54" conditionals="28" coveredconditionals="24" methods="8" coveredmethods="8"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
@@ -63,7 +63,7 @@
         <line num="128" count="1" type="stmt"/>
         <line num="129" count="1" type="stmt"/>
       </file>
-      <file name="ProcessMessageUseCase.ts" path="/Users/thomazaraujo/Documents/CIn-UFPE/DS/iagenda/backend/src/application/usecases/ProcessMessageUseCase.ts">
+      <file name="ProcessMessageUseCase.ts" path="C:\Users\João Marrocos\Desktop\iagenda\backend\src\application\usecases\ProcessMessageUseCase.ts">
         <metrics statements="12" coveredstatements="12" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="2"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -81,7 +81,7 @@
     </package>
     <package name="infrastructure.http.controllers">
       <metrics statements="12" coveredstatements="12" conditionals="8" coveredconditionals="6" methods="3" coveredmethods="3"/>
-      <file name="TestController.ts" path="/Users/thomazaraujo/Documents/CIn-UFPE/DS/iagenda/backend/src/infrastructure/http/controllers/TestController.ts">
+      <file name="TestController.ts" path="C:\Users\João Marrocos\Desktop\iagenda\backend\src\infrastructure\http\controllers\TestController.ts">
         <metrics statements="12" coveredstatements="12" conditionals="8" coveredconditionals="6" methods="3" coveredmethods="3"/>
         <line num="7" count="1" type="stmt"/>
         <line num="9" count="4" type="stmt"/>
@@ -99,7 +99,7 @@
     </package>
     <package name="infrastructure.repositories">
       <metrics statements="6" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <file name="InteractionRepository.ts" path="/Users/thomazaraujo/Documents/CIn-UFPE/DS/iagenda/backend/src/infrastructure/repositories/InteractionRepository.ts">
+      <file name="InteractionRepository.ts" path="C:\Users\João Marrocos\Desktop\iagenda\backend\src\infrastructure\repositories\InteractionRepository.ts">
         <metrics statements="6" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="11" count="2" type="stmt"/>
