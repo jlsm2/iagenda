@@ -70,6 +70,15 @@ async function startServer() {
     }
   });
 
+  app.delete('/api/routines/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await routineController.deleteRoutine(req, res);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+
   // Start server
   app.listen(port, '0.0.0.0', () => {
     console.log(`✅ Backend rodando em http://0.0.0.0:${port}`);

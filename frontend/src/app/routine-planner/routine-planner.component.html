@@ -73,12 +73,5 @@
     <div *ngIf="(isProcessing$ | async)" class="status-message loading-message">
       <p>⏳ Processando sua rotina com a IA...</p>
     </div>
-    <div *ngIf="(processingError$ | async) as errorMsg" class="status-message error-message">
-      <p><strong>⚠️ Erro:</strong> {{ errorMsg }}</p>
-    </div>
-    <div *ngIf="(generatedRoutineText$ | async) as routine" class="generated-routine-display">
-      <h3>Sugestão de Rotina:</h3>
-      <pre class="routine-text">{{ routine }}</pre>
-    </div>
   </div>
 </main>

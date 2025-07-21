@@ -54,4 +54,10 @@ export class ApiService {
   getRoutineById(routineId: number): Observable<Routine> { // ALTERADO: Tipo de retorno
     return this.http.get<Routine>(`${this.apiUrl}/routines/${routineId}`);
   }
+
+  deleteRoutine(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/routines/${id}`);
+  }
+  
+  
 }

@@ -1,24 +1,31 @@
 <div class="routine-history">
-    <div class="header-container card-background">
-      <h2>Rotinas salvas</h2>
-      <button routerLink="/planner" class="add-btn">+ Adicionar nova rotina</button>
-    </div>
-  
-    <ng-container *ngIf="routines$ | async as routines">
-      <div *ngIf="routines.length > 0; else noRoutines">
-        <div 
-          class="routine-card"
-          *ngFor="let routine of routines"
-          (click)="openRoutine(routine.id)"
-        >
+  <div class="header-container card-background">
+    <h2>Rotinas salvas</h2>
+    <button routerLink="/planner" class="add-btn">+ Adicionar nova rotina</button>
+  </div>
+
+  <ng-container *ngIf="routines$ | async as routines">
+    <div *ngIf="routines.length > 0; else noRoutines">
+      <div 
+        class="routine-card"
+        *ngFor="let routine of routines"
+      >
+        <div class="routine-info" (click)="openRoutine(routine.id)">
           <h3>{{ routine.title }}</h3>
           <p>{{ routine.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
         </div>
+        <button 
+          class="remove-btn"
+          (click)="deleteRoutine(routine.id, $event)"
+          aria-label="Excluir rotina"
+        >
+          ×
+        </button>
       </div>
-  
-      <ng-template #noRoutines>
-        <p class="empty">Nenhuma rotina salva ainda.</p>
-      </ng-template>
-    </ng-container>
-  </div>
-  
+    </div>
+
+    <ng-template #noRoutines>
+      <p class="empty">Nenhuma rotina salva ainda.</p>
+    </ng-template>
+  </ng-container>
+</div>

@@ -95,4 +95,25 @@ export class RoutineController {
       res.status(500).json({ error: 'Erro interno ao buscar rotina.' });
     }
   }
+
+  // NOVO: Método para excluir uma rotina
+  async deleteRoutine(req: Request, res: Response): Promise<void> {
+    try {
+      const routineId = Number(req.params.id);
+
+      const existingRoutine = await routineRepo.findById(routineId);
+      if (!existingRoutine) {
+        res.status(404).json({ error: 'Rotina não encontrada.' });
+        return;
+      }
+
+      await routineRepo.delete(routineId);
+      res.status(204).send(); // 204 No Content
+
+    } catch (error) {
+      console.error('Erro ao excluir rotina:', error);
+      res.status(500).json({ error: 'Erro interno ao excluir rotina.' });
+    }
+  }
+
 }
