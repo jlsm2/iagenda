@@ -124,4 +124,27 @@ export class RoutineFacade {
       })
     ).subscribe();
   }
+
+  deleteRoutine(id: number, updateLocal = false): void {
+    this.apiService.deleteRoutine(id).pipe(
+      tap(() => {
+        if (updateLocal) {
+          // Remove rotina da lista local sem recarregar tudo
+          const current = this._userRoutines$.getValue();
+          const updated = current.filter(routine => routine.id !== id);
+          this._userRoutines$.next(updated);
+        } else {
+          // Ou recarrega toda a lista se preferir
+          this.loadUserRoutines();
+        }
+      }),
+      catchError((error) => {
+        console.error('Erro ao excluir rotina:', error);
+        return of(null);
+      })
+    ).subscribe();
+  }
+  
+  
+  
 }

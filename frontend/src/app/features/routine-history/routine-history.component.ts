@@ -31,4 +31,9 @@ export class RoutineHistoryComponent implements OnInit {
   goToPlanner(): void {
     this.router.navigate(['/planner']);
   }
+
+  deleteRoutine(id: number, event: MouseEvent): void {
+    event.stopPropagation(); // Evita que clique no X abra a rotina
+    this.routineFacade.deleteRoutine(id, true); // Passa true para remover da lista local
+  }
 }

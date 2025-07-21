@@ -33,4 +33,10 @@ export class RoutineRepository {
     await database('routines').where({ id }).update(data);
     return this.findById(id);
   }
+
+  // NOVO: Método para excluir uma rotina
+  async delete(id: number): Promise<void> {
+    await database('routines').where({ id }).del();
+  }
+
 }
