@@ -102,7 +102,29 @@ export class RoutineFacade {
     }
 
     this.apiService.getUserRoutines(userId).pipe(
-      tap((routines: any[]) => this._userRoutines$.next(routines)),
+      tap((routines: any[]) => {
+        const transformed = routines.map(r => {
+          const createdAt = new Date(r.created_at); // `created_at` deve estar em formato ISO
+          let routineDate = new Date(createdAt);
+      
+          if (createdAt.getHours() >= 12) {
+            // Adiciona um dia
+            routineDate.setDate(routineDate.getDate() + 1);
+          }
+      
+          const day = String(routineDate.getDate()).padStart(2, '0');
+          const month = String(routineDate.getMonth() + 1).padStart(2, '0'); // mês começa em 0
+          const year = routineDate.getFullYear();
+      
+          return {
+            ...r,
+            title: `Rotina de ${day}/${month}/${year}`
+          };
+        });
+      
+        this._userRoutines$.next(transformed);
+      }),
+      
       catchError((error) => {
         console.error('Erro ao carregar rotinas:', error);
         this._userRoutines$.next([]);
