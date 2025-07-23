@@ -1,19 +1,16 @@
-<div class="page-container">
+<div class="routine-page-container">
   <header class="page-header">
-    <span class="material-icons icon-button" routerLink="/historico">arrow_back</span>
-    <h1 class="page-title">Olá, Usuário!</h1>
-    <span class="material-icons icon-button">person_outline</span>
+    <a routerLink="/historico" class="back-link">
+      <span class="material-icons">arrow_back</span>
+    </a>
   </header>
 
-  <main class="routine-content">
+  <main class="routine-card">
     <div class="routine-header">
       <h2>Sua rotina de hoje: <br><span>Gerada pela iAgenda</span></h2>
-      <span class="material-icons icon-button">filter_list</span>
     </div>
 
-    <!-- O *ngIf agora verifica se o array de atividades existe -->
     <div *ngIf="atividades$ | async as atividades; else emptyState" class="routine-list">
-      <!-- O *ngFor itera sobre o array de atividades processadas -->
       <div
         *ngFor="let atividade of atividades"
         class="routine-item"
@@ -22,9 +19,7 @@
         <div class="item-info">
           <span class="item-title">{{ atividade.titulo }} {{ atividade.horario }} {{ atividade.emoji }}</span>
         </div>
-
         <div class="item-actions">
-          <!-- O botão de checkmark agora funciona com os dados processados -->
           <button
               class="status-button"
               (click)="toggleStatus(atividade)"
@@ -38,12 +33,10 @@
       </div>
     </div>
 
-    <!-- Template para quando não há rotina gerada -->
     <ng-template #emptyState>
       <div class="empty-state">
         <p>Nenhuma rotina foi gerada ainda. Volte para o planejador para criar uma!</p>
       </div>
     </ng-template>
-
   </main>
 </div>
