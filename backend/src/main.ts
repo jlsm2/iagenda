@@ -14,7 +14,28 @@ async function startServer() {
   const app: Express = express();
   const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
-  app.use(cors());
+ // --- CORS Configuration STARTS HERE ---
+  const allowedOrigins = [
+    'https://iagenda-nine.vercel.app',
+    // You can add your local development URL here if needed
+    'http://localhost:4200' 
+  ];
+
+  const corsOptions = {
+    origin: (origin, callback) => {
+      // The 'origin' will be undefined for server-to-server requests or curl
+      // We allow those, and also allow requests from our list of origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  };
+
+  app.use(cors(corsOptions));
+  // --- CORS Configuration ENDS HERE ---
+
   app.use(express.json());
 
   const authController = new AuthController();
