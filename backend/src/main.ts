@@ -18,7 +18,8 @@ async function startServer() {
   const allowedOrigins = [
     'https://iagenda-nine.vercel.app',
     // You can add your local development URL here if needed
-    'http://localhost:4200' 
+    'http://localhost:4200' ,
+    "*"
   ];
 
   const corsOptions = {
