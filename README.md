@@ -1,91 +1,112 @@
+
 # iAgenda
-Este projeto é composto por um frontend Angular 20 e um backend em Node.js usando o NestJS.
+
+Este projeto é composto por um frontend em Angular e um backend em Node.js com o framework NestJS.
+
+## 🚀 Deploy
+
+O deploy da aplicação está disponível no seguinte link:
+[https://iagenda-nine.vercel.app/](https://iagenda-nine.vercel.app/)
+
 ## 📦 Estrutura do Projeto
-O projeto está organizado da seguinte forma:
-/
-├── frontend/   # Projeto Angular
-└── backend/    # Projeto NestJS
 
+O projeto está organizado em duas pastas principais:
 
-## 🧭Requisitos
-Para executar este projeto, você precisará ter instalado:
-Node.js 18+
-npm 9+
-Angular CLI 20
-Um banco de dados configurado (PostgreSQL, Oracle, etc., dependendo da configuração do backend)
-Docker
-## 🔧 Como Usar
-Siga os passos abaixo para configurar e executar o projeto localmente.
-1. Clonar o Repositório
-Primeiro, clone o repositório para sua máquina local:
-git clone <url-do-repositorio>
-cd <nome-do-repositorio>
+* **/frontend/**: Contém o projeto em Angular.
+* **/backend/**: Contém o projeto em NestJS.
 
+## 🧭 Requisitos
 
-2. Rodar com o Docker
-Na raiz da aplicação e, com o Docker rodando, rode:
-- docker-compose up --build
+Para executar este projeto localmente, você precisará ter instalado:
 
-O Dockerfile ja vai instalar todas as dependecias e rodar tanto o back quanto o front
+* **Node.js** (versão recomendada pelos arquivos do projeto)
+* **npm** ou **Yarn**
+* **Angular CLI**
+* **Docker** e **Docker Compose**
 
+## 🔧 Como Usar (Com Docker)
 
-Após iniciar, acesse a aplicação no seu navegador em: http://localhost:4200.
-A aplicação será recarregada automaticamente sempre que você salvar alterações nos arquivos.
-## 🛠️ Gerar Componentes e Outros Artefatos
-Para gerar novos componentes ou outros artefatos Angular via CLI:
+A maneira mais simples de executar o projeto é utilizando Docker.
+
+1.  **Clonar o Repositório:**
+    ```bash
+    git clone <url-do-repositorio>
+    cd <nome-do-repositorio>
+    ```
+
+2.  **Iniciar os Contêineres:**
+    Na raiz do projeto, com o Docker em execução, rode o comando:
+    ```bash
+    docker-compose up --build
+    ```
+    Este comando irá construir as imagens do frontend e do backend, instalar todas as dependências e iniciar os serviços.
+
+    * O frontend estará acessível em: `http://localhost:4200`
+    * O backend estará acessível em: `http://localhost:3000`
+
+## 🖥️ Frontend (Angular 17)
+
+O frontend é construído com Angular 17.
+
+### Gerar Componentes
+
+Para gerar novos componentes ou outros artefatos do Angular, utilize o Angular CLI:
+
+```bash
 ng generate component nome-do-componente
+````
 
+### Build para Produção
 
-Para visualizar todas as opções de geração:
-ng generate --help
-
-
-## 🏗️ Build para Produção
 Para compilar o projeto para produção:
+
+```bash
 ng build
+```
 
+Os arquivos compilados serão gerados no diretório `dist/`.
 
-Os arquivos compilados serão gerados no diretório dist/.
-## 🧪 Testes
-Para rodar os testes unitários automatizados, faça os seguintes comandos abaixo:
-- cd backend (para ir da raiz para o backend)
-- npm install (para instalar as dependências necessárias)
-- npm test (para rodar os testes)
+## ⚙️ Backend (NestJS 10)
 
-Em seguida aparecerá um texto informando se os testes foram bem-sucedidos e a cobertura deles.
+O backend é construído com NestJS, utilizando TypeScript.
 
+### Principais Tecnologias
 
-## ⚠️ Nota: O Angular CLI não inclui um framework de E2E por padrão a partir de versões mais recentes. Você pode integrar ferramentas como Cypress ou Playwright para testes E2E.
-## 📚 Recursos Úteis do Angular
-Documentação Oficial do Angular
-Referência da Angular CLI
-## 🖥️ Backend (NestJS)
-O backend é construído com NestJS, um framework modular, robusto e altamente escalável para Node.js, utilizando TypeScript.
-## 📦 Principais Bibliotecas e Conceitos
-@nestjs/core e outros módulos fundamentais do NestJS
-ORM (Object-Relational Mapper) como TypeORM, Prisma, ou Sequelize (verifique a implementação específica do projeto)
-Autenticação via JWT (JSON Web Tokens)
-Multer para upload de arquivos
-class-validator e class-transformer para validação e transformação de dados de entrada (DTOs)
-Swagger (OpenAPI) para documentação interativa da API
-## 🚀 Servidor de Desenvolvimento
-Para iniciar o servidor de desenvolvimento do backend:
-cd backend
-npm run start:dev
+  * **Framework:** NestJS 10
+  * **Banco de Dados:** PostgreSQL
+  * **ORM:** TypeORM
+  * **Autenticação:** JWT (JSON Web Tokens)
+  * **Documentação da API:** Swagger (OpenAPI)
 
+### Testes
 
-Por padrão, o servidor NestJS estará acessível em: http://localhost:3000.
-## 🔒 Autenticação
-A autenticação da API é realizada utilizando JWT. Após um login bem-sucedido, o cliente recebe um token de acesso. Este token deve ser incluído no cabeçalho Authorization de todas as requisições para endpoints protegidos:
-Authorization: Bearer <seu-token-jwt>
+Para rodar os testes unitários e de cobertura do backend:
 
+1.  Navegue até a pasta do backend:
+    ```bash
+    cd backend
+    ```
+2.  Instale as dependências (se ainda não o fez):
+    ```bash
+    npm install
+    ```
+3.  Execute os testes:
+    ```bash
+    # Para rodar os testes unitários
+    npm test
 
-## 📁 Upload de Arquivos
-O backend suporta o upload de diversos tipos de arquivos, incluindo PDFs e arquivos geoespaciais como KMZ, KML e arquivos SHP (geralmente enviados como um arquivo ZIP). A biblioteca Multer é utilizada para gerenciar o upload. Os arquivos são tipicamente salvos localmente no servidor e suas informações (como caminho e metadados) são relacionadas a entidades no banco de dados.
+    # Para gerar o relatório de cobertura de testes
+    npm run test:cov
+    ```
 
+### Documentação da API (Swagger)
 
-## 📚 Documentação da API (Swagger)
-Se a documentação da API via Swagger estiver habilitada e configurada no projeto, você geralmente pode acessá-la em:
-http://localhost:3000/api (ou o caminho configurado para o Swagger UI).
+A documentação interativa da API está disponível via Swagger. Com o backend em execução, acesse:
+`http://localhost:3000/api`
+
 ## 📄 Licença
+
 Este projeto está licenciado sob os termos da MIT License.
+
+```
+```
