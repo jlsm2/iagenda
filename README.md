@@ -104,6 +104,11 @@ Para rodar os testes unitários e de cobertura do backend:
 A documentação interativa da API está disponível via Swagger. Com o backend em execução, acesse:
 `http://localhost:3000/api`
 
+## Tutorial em vídeo
+
+Tutorial em vídeo pode ser acessado neste [link](https://drive.google.com/file/d/1gbs8TiI4oXcmtilxpyU-8IECXw-DjEHp/view?usp=sharing).
+
+
 ## 📄 Licença
 
 Este projeto está licenciado sob os termos da MIT License.
